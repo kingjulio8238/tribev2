@@ -7,7 +7,6 @@ import { BrainTooltip } from './BrainTooltip';
 import { RaycastHandler } from './RaycastHandler';
 import type { HoverInfo } from './RaycastHandler';
 import { CameraAnimator, ViewPresetButtons } from './ViewPresets';
-import { ExportControls } from './ExportControls';
 import type {
   BrainMeshData,
   PredictionData,
@@ -37,7 +36,7 @@ export function BrainPanel({
   metadata,
   roiData,
   loading,
-  demoId,
+  demoId: _demoId,
   initialCameraPosition,
 }: BrainPanelProps) {
   const containerRef = useRef<HTMLDivElement>(null);
