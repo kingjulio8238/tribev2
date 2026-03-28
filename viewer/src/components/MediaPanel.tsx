@@ -101,7 +101,6 @@ export function MediaPanel({
               objectFit: 'contain',
             }}
             playsInline
-            muted
           />
         ) : (
           <VideoPlaceholder />
