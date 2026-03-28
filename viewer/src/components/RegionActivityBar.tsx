@@ -134,12 +134,12 @@ export function RegionActivityBar({
                   overflow: 'hidden',
                 }}
               >
-                {/* Bar fill */}
+                {/* Bar fill — fire colormap gradient */}
                 <div
                   style={{
                     height: '100%',
                     width: `${region.activation * 100}%`,
-                    backgroundColor: '#1A1D26',
+                    background: 'linear-gradient(to right, #000000, #591500, #bf2600, #f27308, #ffbf33, #ffffd9)',
                     borderRadius: 4,
                     transition: 'width 150ms ease-out',
                   }}
