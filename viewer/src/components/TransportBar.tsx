@@ -262,7 +262,7 @@ export function TransportBar({
               width: `${progress * 100}%`,
               backgroundColor: '#2B7A83',
               borderRadius: 3,
-              transition: isDragging ? 'none' : 'width 0.05s linear',
+              transition: 'none',
             }}
           />
         </div>
