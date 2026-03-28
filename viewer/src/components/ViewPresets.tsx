@@ -130,6 +130,7 @@ const baseButtonStyle: React.CSSProperties = {
   fontWeight: 500,
   cursor: 'pointer',
   transition: 'background-color 150ms, color 150ms, border-color 150ms',
+  outline: 'none',
   padding: '4px 10px',
   lineHeight: 1,
   whiteSpace: 'nowrap',
