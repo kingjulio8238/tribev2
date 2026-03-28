@@ -300,13 +300,13 @@ export function TransportBar({
           />
         )}
 
-        {/* Playhead dot */}
+        {/* Playhead dot — positioned at the end of the filled bar */}
         <div
           style={{
             position: 'absolute',
-            left: `${progress * 100}%`,
+            left: `calc(${progress * 100}% - ${isDragging ? 7 : 5}px)`,
             top: '50%',
-            transform: 'translate(-50%, -50%)',
+            transform: 'translateY(-50%)',
             width: isDragging ? 14 : 10,
             height: isDragging ? 14 : 10,
             borderRadius: '50%',
