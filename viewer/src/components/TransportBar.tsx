@@ -180,9 +180,9 @@ export function TransportBar({
             onClick={() => onSetPlaybackSpeed(speed)}
             style={{
               ...speedButtonStyle,
-              color: playbackSpeed === speed ? '#2B7A83' : '#8B90A0',
-              borderColor: playbackSpeed === speed ? '#2B7A83' : '#D8DBE4',
-              backgroundColor: playbackSpeed === speed ? 'rgba(43, 122, 131, 0.08)' : 'transparent',
+              color: playbackSpeed === speed ? '#FFFFFF' : '#8B90A0',
+              borderColor: playbackSpeed === speed ? '#1A1D26' : '#D8DBE4',
+              backgroundColor: playbackSpeed === speed ? '#1A1D26' : '#FFFFFF',
             }}
             title={`Playback speed ${speed}x`}
             tabIndex={0}
