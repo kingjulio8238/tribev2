@@ -2,11 +2,12 @@ import { useState, useCallback, useRef, useEffect } from 'react';
 import { Canvas } from '@react-three/fiber';
 import { OrbitControls } from '@react-three/drei';
 import { BrainMesh } from './BrainMesh';
-import { ColorBar } from './ColorBar';
 import { BrainTooltip } from './BrainTooltip';
 import { RaycastHandler } from './RaycastHandler';
 import type { HoverInfo } from './RaycastHandler';
-import { CameraAnimator, ViewPresetButtons } from './ViewPresets';
+import { CameraAnimator, requestCameraMove } from './ViewPresets';
+import { RegionActivityBar } from './RegionActivityBar';
+import { useRegionActivity } from '../hooks/useRegionActivity';
 import type {
   BrainMeshData,
   PredictionData,
@@ -42,6 +43,9 @@ export function BrainPanel({
   const containerRef = useRef<HTMLDivElement>(null);
   const [hoverInfo, setHoverInfo] = useState<HoverInfo | null>(null);
   const [containerSize, setContainerSize] = useState({ width: 0, height: 0 });
+  const [activeRegionIndex, setActiveRegionIndex] = useState<number | null>(null);
+
+  const regions = useRegionActivity(predictions, roiData, currentTime, trSeconds);
 
   useEffect(() => {
     const el = containerRef.current;
@@ -59,7 +63,6 @@ export function BrainPanel({
     return () => ro.disconnect();
   }, []);
 
-  // Convert client coordinates to container-relative for tooltip positioning
   const handleHover = useCallback((info: HoverInfo | null) => {
     if (!info) {
       setHoverInfo(null);
@@ -76,6 +79,19 @@ export function BrainPanel({
       setHoverInfo(info);
     }
   }, []);
+
+  const handleRegionClick = useCallback((index: number) => {
+    setActiveRegionIndex(index);
+    const region = regions[index];
+    if (region) {
+      requestCameraMove({
+        label: region.name,
+        abbr: region.name[0],
+        position: region.cameraPosition,
+        up: region.cameraUp,
+      });
+    }
+  }, [regions]);
 
   return (
     <div
@@ -140,8 +156,11 @@ export function BrainPanel({
         />
         <CameraAnimator />
       </Canvas>
-      <ViewPresetButtons />
-      <ColorBar vmin={metadata?.vmin} />
+      <RegionActivityBar
+        regions={regions}
+        activeIndex={activeRegionIndex}
+        onRegionClick={handleRegionClick}
+      />
       <BrainTooltip
         visible={hoverInfo !== null}
         x={hoverInfo?.screenX ?? 0}

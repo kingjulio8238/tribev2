@@ -6,7 +6,7 @@ import { Vector3 } from 'three';
 /*  View preset definitions (from tribev2 VIEW_DICT)                  */
 /* ------------------------------------------------------------------ */
 
-interface ViewPreset {
+export interface ViewPreset {
   label: string;
   abbr: string;
   position: [number, number, number];
@@ -35,7 +35,7 @@ interface CameraTarget {
 // the R3F component without requiring a context provider.
 let pendingTarget: CameraTarget | null = null;
 
-function requestCameraMove(preset: ViewPreset) {
+export function requestCameraMove(preset: ViewPreset) {
   pendingTarget = {
     position: new Vector3(...preset.position),
     up: new Vector3(...preset.up),
