@@ -260,29 +260,12 @@ export function TransportBar({
               top: 0,
               height: '100%',
               width: `${progress * 100}%`,
-              backgroundColor: '#2B7A83',
+              backgroundColor: '#1A1D26',
               borderRadius: 3,
               transition: 'none',
             }}
           />
         </div>
-
-        {/* TR tick marks */}
-        {ticks.map((frac, i) => (
-          <div
-            key={i}
-            style={{
-              position: 'absolute',
-              left: `${frac * 100}%`,
-              top: '50%',
-              transform: 'translate(-50%, -50%)',
-              width: 1,
-              height: 10,
-              backgroundColor: 'rgba(43, 122, 131, 0.12)',
-              pointerEvents: 'none',
-            }}
-          />
-        ))}
 
         {/* Hover indicator */}
         {hoverProgress !== null && !isDragging && (
@@ -300,24 +283,6 @@ export function TransportBar({
           />
         )}
 
-        {/* Playhead dot — positioned at the end of the filled bar */}
-        <div
-          style={{
-            position: 'absolute',
-            left: `calc(${progress * 100}% - ${isDragging ? 7 : 5}px)`,
-            top: '50%',
-            transform: 'translateY(-50%)',
-            width: isDragging ? 14 : 10,
-            height: isDragging ? 14 : 10,
-            borderRadius: '50%',
-            backgroundColor: '#FFFFFF',
-            border: '2px solid #2B7A83',
-            boxShadow: '0 1px 4px rgba(0,0,0,0.12)',
-            transition: isDragging ? 'none' : 'width 0.1s, height 0.1s, left 0.05s linear',
-            pointerEvents: 'none',
-            zIndex: 2,
-          }}
-        />
       </div>
     </div>
   );

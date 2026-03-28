@@ -90,7 +90,7 @@ export function Waveform({ currentTime, duration, onClick }: WaveformProps) {
 
       // Bars before playhead are brighter
       if (x < playheadX) {
-        ctx.fillStyle = '#2B7A83';
+        ctx.fillStyle = '#1A1D26';
       } else {
         ctx.fillStyle = '#CDD1DB';
       }
