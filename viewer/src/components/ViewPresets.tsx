@@ -174,7 +174,7 @@ export function ViewPresetButtons() {
             }}
             onMouseEnter={() => setHoveredIndex(i)}
             onMouseLeave={() => setHoveredIndex(null)}
-            onClick={() => handleClick(preset, i)}
+            onClick={(e) => { handleClick(preset, i); (e.target as HTMLElement).blur(); }}
           >
             {preset.label}
           </button>
