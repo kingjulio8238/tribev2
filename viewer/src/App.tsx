@@ -285,6 +285,7 @@ export function App() {
               roiData={roiData}
               loading={loading}
               demoId={currentDemo.id}
+              basePath={currentDemo.basePath}
               initialCameraPosition={
                 shareParams.current.initialCameraPosition ?? undefined
               }

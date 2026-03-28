@@ -1,0 +1,585 @@
+[
+  {
+    "time": 0.0,
+    "emotions": {
+      "Engagement": 0.328,
+      "Tension": 0.391,
+      "Wonder": 0.39,
+      "Empathy": 0.156,
+      "Excitement": 0.148,
+      "Unease": 0.279
+    }
+  },
+  {
+    "time": 1.0,
+    "emotions": {
+      "Engagement": 0.408,
+      "Tension": 0.413,
+      "Wonder": 0.396,
+      "Empathy": 0.092,
+      "Excitement": 0.049,
+      "Unease": 0.275
+    }
+  },
+  {
+    "time": 2.0,
+    "emotions": {
+      "Engagement": 0.264,
+      "Tension": 0.439,
+      "Wonder": 0.415,
+      "Empathy": 0.171,
+      "Excitement": 0.059,
+      "Unease": 0.321
+    }
+  },
+  {
+    "time": 3.0,
+    "emotions": {
+      "Engagement": 0.449,
+      "Tension": 0.401,
+      "Wonder": 0.419,
+      "Empathy": 0.182,
+      "Excitement": 0.096,
+      "Unease": 0.264
+    }
+  },
+  {
+    "time": 4.0,
+    "emotions": {
+      "Engagement": 0.504,
+      "Tension": 0.462,
+      "Wonder": 0.247,
+      "Empathy": 0.045,
+      "Excitement": 0.215,
+      "Unease": 0.383
+    }
+  },
+  {
+    "time": 5.0,
+    "emotions": {
+      "Engagement": 0.498,
+      "Tension": 0.532,
+      "Wonder": 0.306,
+      "Empathy": 0.208,
+      "Excitement": 0.142,
+      "Unease": 0.4
+    }
+  },
+  {
+    "time": 6.0,
+    "emotions": {
+      "Engagement": 0.523,
+      "Tension": 0.496,
+      "Wonder": 0.341,
+      "Empathy": 0.12,
+      "Excitement": 0.231,
+      "Unease": 0.325
+    }
+  },
+  {
+    "time": 7.0,
+    "emotions": {
+      "Engagement": 0.419,
+      "Tension": 0.413,
+      "Wonder": 0.155,
+      "Empathy": 0.047,
+      "Excitement": 0.136,
+      "Unease": 0.394
+    }
+  },
+  {
+    "time": 8.0,
+    "emotions": {
+      "Engagement": 0.514,
+      "Tension": 0.408,
+      "Wonder": 0.186,
+      "Empathy": 0.043,
+      "Excitement": 0.198,
+      "Unease": 0.546
+    }
+  },
+  {
+    "time": 9.0,
+    "emotions": {
+      "Engagement": 0.525,
+      "Tension": 0.433,
+      "Wonder": 0.12,
+      "Empathy": 0.151,
+      "Excitement": 0.206,
+      "Unease": 0.451
+    }
+  },
+  {
+    "time": 10.0,
+    "emotions": {
+      "Engagement": 0.597,
+      "Tension": 0.413,
+      "Wonder": 0.174,
+      "Empathy": 0.152,
+      "Excitement": 0.372,
+      "Unease": 0.543
+    }
+  },
+  {
+    "time": 11.0,
+    "emotions": {
+      "Engagement": 0.445,
+      "Tension": 0.264,
+      "Wonder": 0.105,
+      "Empathy": 0.082,
+      "Excitement": 0.275,
+      "Unease": 0.584
+    }
+  },
+  {
+    "time": 12.0,
+    "emotions": {
+      "Engagement": 0.57,
+      "Tension": 0.291,
+      "Wonder": 0.157,
+      "Empathy": 0.125,
+      "Excitement": 0.445,
+      "Unease": 0.491
+    }
+  },
+  {
+    "time": 13.0,
+    "emotions": {
+      "Engagement": 0.439,
+      "Tension": 0.248,
+      "Wonder": 0.125,
+      "Empathy": 0.119,
+      "Excitement": 0.407,
+      "Unease": 0.579
+    }
+  },
+  {
+    "time": 14.0,
+    "emotions": {
+      "Engagement": 0.453,
+      "Tension": 0.212,
+      "Wonder": 0.204,
+      "Empathy": 0.192,
+      "Excitement": 0.334,
+      "Unease": 0.403
+    }
+  },
+  {
+    "time": 15.0,
+    "emotions": {
+      "Engagement": 0.378,
+      "Tension": 0.265,
+      "Wonder": 0.159,
+      "Empathy": 0.2,
+      "Excitement": 0.351,
+      "Unease": 0.461
+    }
+  },
+  {
+    "time": 16.0,
+    "emotions": {
+      "Engagement": 0.534,
+      "Tension": 0.217,
+      "Wonder": 0.195,
+      "Empathy": 0.316,
+      "Excitement": 0.361,
+      "Unease": 0.515
+    }
+  },
+  {
+    "time": 17.0,
+    "emotions": {
+      "Engagement": 0.448,
+      "Tension": 0.193,
+      "Wonder": 0.059,
+      "Empathy": 0.302,
+      "Excitement": 0.397,
+      "Unease": 0.44
+    }
+  },
+  {
+    "time": 18.0,
+    "emotions": {
+      "Engagement": 0.376,
+      "Tension": 0.253,
+      "Wonder": 0.19,
+      "Empathy": 0.256,
+      "Excitement": 0.488,
+      "Unease": 0.368
+    }
+  },
+  {
+    "time": 19.0,
+    "emotions": {
+      "Engagement": 0.44,
+      "Tension": 0.216,
+      "Wonder": 0.088,
+      "Empathy": 0.361,
+      "Excitement": 0.518,
+      "Unease": 0.339
+    }
+  },
+  {
+    "time": 20.0,
+    "emotions": {
+      "Engagement": 0.381,
+      "Tension": 0.134,
+      "Wonder": 0.201,
+      "Empathy": 0.368,
+      "Excitement": 0.4,
+      "Unease": 0.347
+    }
+  },
+  {
+    "time": 21.0,
+    "emotions": {
+      "Engagement": 0.202,
+      "Tension": 0.199,
+      "Wonder": 0.242,
+      "Empathy": 0.456,
+      "Excitement": 0.461,
+      "Unease": 0.266
+    }
+  },
+  {
+    "time": 22.0,
+    "emotions": {
+      "Engagement": 0.344,
+      "Tension": 0.194,
+      "Wonder": 0.107,
+      "Empathy": 0.413,
+      "Excitement": 0.408,
+      "Unease": 0.377
+    }
+  },
+  {
+    "time": 23.0,
+    "emotions": {
+      "Engagement": 0.292,
+      "Tension": 0.026,
+      "Wonder": 0.211,
+      "Empathy": 0.449,
+      "Excitement": 0.438,
+      "Unease": 0.369
+    }
+  },
+  {
+    "time": 24.0,
+    "emotions": {
+      "Engagement": 0.196,
+      "Tension": 0.043,
+      "Wonder": 0.252,
+      "Empathy": 0.505,
+      "Excitement": 0.411,
+      "Unease": 0.227
+    }
+  },
+  {
+    "time": 25.0,
+    "emotions": {
+      "Engagement": 0.285,
+      "Tension": 0.136,
+      "Wonder": 0.261,
+      "Empathy": 0.479,
+      "Excitement": 0.378,
+      "Unease": 0.181
+    }
+  },
+  {
+    "time": 26.0,
+    "emotions": {
+      "Engagement": 0.13,
+      "Tension": 0.132,
+      "Wonder": 0.249,
+      "Empathy": 0.432,
+      "Excitement": 0.347,
+      "Unease": 0.235
+    }
+  },
+  {
+    "time": 27.0,
+    "emotions": {
+      "Engagement": 0.088,
+      "Tension": 0.209,
+      "Wonder": 0.405,
+      "Empathy": 0.41,
+      "Excitement": 0.356,
+      "Unease": 0.217
+    }
+  },
+  {
+    "time": 28.0,
+    "emotions": {
+      "Engagement": 0.069,
+      "Tension": 0.072,
+      "Wonder": 0.449,
+      "Empathy": 0.514,
+      "Excitement": 0.377,
+      "Unease": 0.217
+    }
+  },
+  {
+    "time": 29.0,
+    "emotions": {
+      "Engagement": 0.174,
+      "Tension": 0.104,
+      "Wonder": 0.309,
+      "Empathy": 0.485,
+      "Excitement": 0.339,
+      "Unease": 0.134
+    }
+  },
+  {
+    "time": 30.0,
+    "emotions": {
+      "Engagement": 0.15,
+      "Tension": 0.225,
+      "Wonder": 0.513,
+      "Empathy": 0.414,
+      "Excitement": 0.305,
+      "Unease": 0.092
+    }
+  },
+  {
+    "time": 31.0,
+    "emotions": {
+      "Engagement": 0.173,
+      "Tension": 0.166,
+      "Wonder": 0.377,
+      "Empathy": 0.474,
+      "Excitement": 0.279,
+      "Unease": 0.068
+    }
+  },
+  {
+    "time": 32.0,
+    "emotions": {
+      "Engagement": 0.051,
+      "Tension": 0.329,
+      "Wonder": 0.447,
+      "Empathy": 0.543,
+      "Excitement": 0.275,
+      "Unease": 0.014
+    }
+  },
+  {
+    "time": 33.0,
+    "emotions": {
+      "Engagement": 0.205,
+      "Tension": 0.341,
+      "Wonder": 0.569,
+      "Empathy": 0.539,
+      "Excitement": 0.306,
+      "Unease": 0.033
+    }
+  },
+  {
+    "time": 34.0,
+    "emotions": {
+      "Engagement": 0.112,
+      "Tension": 0.246,
+      "Wonder": 0.468,
+      "Empathy": 0.344,
+      "Excitement": 0.184,
+      "Unease": 0.198
+    }
+  },
+  {
+    "time": 35.0,
+    "emotions": {
+      "Engagement": 0.081,
+      "Tension": 0.39,
+      "Wonder": 0.487,
+      "Empathy": 0.393,
+      "Excitement": 0.274,
+      "Unease": 0.206
+    }
+  },
+  {
+    "time": 36.0,
+    "emotions": {
+      "Engagement": 0.157,
+      "Tension": 0.406,
+      "Wonder": 0.431,
+      "Empathy": 0.342,
+      "Excitement": 0.254,
+      "Unease": 0.132
+    }
+  },
+  {
+    "time": 37.0,
+    "emotions": {
+      "Engagement": 0.175,
+      "Tension": 0.44,
+      "Wonder": 0.411,
+      "Empathy": 0.371,
+      "Excitement": 0.141,
+      "Unease": 0.201
+    }
+  },
+  {
+    "time": 38.0,
+    "emotions": {
+      "Engagement": 0.121,
+      "Tension": 0.508,
+      "Wonder": 0.41,
+      "Empathy": 0.262,
+      "Excitement": 0.143,
+      "Unease": 0.183
+    }
+  },
+  {
+    "time": 39.0,
+    "emotions": {
+      "Engagement": 0.163,
+      "Tension": 0.363,
+      "Wonder": 0.563,
+      "Empathy": 0.244,
+      "Excitement": 0.131,
+      "Unease": 0.193
+    }
+  },
+  {
+    "time": 40.0,
+    "emotions": {
+      "Engagement": 0.228,
+      "Tension": 0.475,
+      "Wonder": 0.475,
+      "Empathy": 0.352,
+      "Excitement": 0.045,
+      "Unease": 0.236
+    }
+  },
+  {
+    "time": 41.0,
+    "emotions": {
+      "Engagement": 0.221,
+      "Tension": 0.454,
+      "Wonder": 0.488,
+      "Empathy": 0.196,
+      "Excitement": 0.063,
+      "Unease": 0.269
+    }
+  },
+  {
+    "time": 42.0,
+    "emotions": {
+      "Engagement": 0.218,
+      "Tension": 0.479,
+      "Wonder": 0.532,
+      "Empathy": 0.308,
+      "Excitement": 0.016,
+      "Unease": 0.19
+    }
+  },
+  {
+    "time": 43.0,
+    "emotions": {
+      "Engagement": 0.286,
+      "Tension": 0.583,
+      "Wonder": 0.485,
+      "Empathy": 0.259,
+      "Excitement": 0.08,
+      "Unease": 0.208
+    }
+  },
+  {
+    "time": 44.0,
+    "emotions": {
+      "Engagement": 0.429,
+      "Tension": 0.54,
+      "Wonder": 0.405,
+      "Empathy": 0.257,
+      "Excitement": 0.147,
+      "Unease": 0.208
+    }
+  },
+  {
+    "time": 45.0,
+    "emotions": {
+      "Engagement": 0.453,
+      "Tension": 0.459,
+      "Wonder": 0.387,
+      "Empathy": 0.228,
+      "Excitement": 0.057,
+      "Unease": 0.26
+    }
+  },
+  {
+    "time": 46.0,
+    "emotions": {
+      "Engagement": 0.337,
+      "Tension": 0.505,
+      "Wonder": 0.279,
+      "Empathy": 0.145,
+      "Excitement": 0.191,
+      "Unease": 0.306
+    }
+  },
+  {
+    "time": 47.0,
+    "emotions": {
+      "Engagement": 0.466,
+      "Tension": 0.437,
+      "Wonder": 0.293,
+      "Empathy": 0.193,
+      "Excitement": 0.238,
+      "Unease": 0.311
+    }
+  },
+  {
+    "time": 48.0,
+    "emotions": {
+      "Engagement": 0.443,
+      "Tension": 0.426,
+      "Wonder": 0.166,
+      "Empathy": 0.158,
+      "Excitement": 0.22,
+      "Unease": 0.371
+    }
+  },
+  {
+    "time": 49.0,
+    "emotions": {
+      "Engagement": 0.523,
+      "Tension": 0.464,
+      "Wonder": 0.222,
+      "Empathy": 0.002,
+      "Excitement": 0.134,
+      "Unease": 0.518
+    }
+  },
+  {
+    "time": 50.0,
+    "emotions": {
+      "Engagement": 0.568,
+      "Tension": 0.442,
+      "Wonder": 0.275,
+      "Empathy": 0.118,
+      "Excitement": 0.177,
+      "Unease": 0.386
+    }
+  },
+  {
+    "time": 51.0,
+    "emotions": {
+      "Engagement": 0.458,
+      "Tension": 0.489,
+      "Wonder": 0.242,
+      "Empathy": 0.179,
+      "Excitement": 0.357,
+      "Unease": 0.419
+    }
+  },
+  {
+    "time": 52.0,
+    "emotions": {
+      "Engagement": 0.45,
+      "Tension": 0.303,
+      "Wonder": 0.216,
+      "Empathy": 0.193,
+      "Excitement": 0.288,
+      "Unease": 0.513
+    }
+  }
+]

@@ -28,3 +28,10 @@ export interface ROIData {
   vertexLabels: Uint16Array;
   roiNames: string[];
 }
+
+export interface EmotionTimestep {
+  time: number;
+  emotions: Record<string, number>; // emotion name → intensity 0-1
+}
+
+export type EmotionData = EmotionTimestep[];
