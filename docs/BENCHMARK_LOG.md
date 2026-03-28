@@ -134,3 +134,11 @@ Per-version timing results for the TRIBE v2 pipeline. All benchmarks use the Sin
 | v1 (FP16 + compile) | 12.8 min | 3.17x | 11.7 min | 6.8s |
 | v2 (32-frame subsample) | 7.9 min | 5.14x | 6.7 min | 3.9s |
 | **v3 (cuDNN benchmark)** | **6.5 min** | **6.21x** | **5.4 min** | **3.1s** |
+
+### v4 notes (no significant change on T4)
+
+- **Text/audio FP16:** Patching `_load_model`/`_get_sound_model` did not activate — neuralset's pydantic property caching bypasses the patched methods. Would require modifying neuralset source.
+- **Frame pre-extraction:** Caused CUDA fork errors in DataLoader workers. Removed.
+- **Compile warmup:** Skipped in Colab due to forked subprocess CUDA constraint.
+
+**Conclusion:** v3 represents the practical T4 ceiling with monkey-patching. Next step: A100 GPU.
