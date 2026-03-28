@@ -285,11 +285,6 @@ export function App() {
               position: 'relative',
             }}
           >
-            <DemoSelector
-              demos={DEMOS}
-              current={currentDemo}
-              onChange={handleDemoChange}
-            />
             <BrainPanel
               timestepIndex={playback.timestepIndex}
               currentTime={playback.currentTime}
