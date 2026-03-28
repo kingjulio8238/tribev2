@@ -130,25 +130,21 @@ export function WordTranscript({ currentTime, segments }: WordTranscriptProps) {
                 fontFamily: "'Inter', sans-serif",
                 transition: 'background 0.15s, color 0.15s',
                 backgroundColor: isActive
-                  ? 'rgba(232, 98, 44, 0.08)'
-                  : isPast
-                    ? 'rgba(43, 122, 131, 0.04)'
-                    : 'transparent',
+                  ? '#1A1D26'
+                  : 'transparent',
                 color: isActive
-                  ? '#D05A20'
+                  ? '#FFFFFF'
                   : isPast
                     ? '#4A4E5A'
                     : '#B0B5C3',
-                border: isActive
-                  ? '1px solid rgba(232, 98, 44, 0.20)'
-                  : '1px solid transparent',
+                border: '1px solid #D8DBE4',
               }}
             >
               <span
                 style={{
                   fontFamily: 'monospace',
                   fontSize: 9,
-                  color: isActive ? '#C4501A' : '#B0B5C3',
+                  color: isActive ? 'rgba(255,255,255,0.7)' : '#B0B5C3',
                   marginRight: 2,
                   flexShrink: 0,
                 }}
