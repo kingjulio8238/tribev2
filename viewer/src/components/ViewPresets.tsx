@@ -143,10 +143,9 @@ const hoverButtonStyle: React.CSSProperties = {
 };
 
 const activeButtonStyle: React.CSSProperties = {
-  backgroundColor: 'transparent',
-  color: '#1A1D26',
-  borderColor: '#1A1D26',
-  fontWeight: 600,
+  backgroundColor: '#1A1D26',
+  color: '#FFFFFF',
+  border: '1px solid #1A1D26',
 };
 
 export function ViewPresetButtons() {
