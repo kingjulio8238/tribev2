@@ -14,12 +14,12 @@ interface ViewPreset {
 }
 
 const VIEW_PRESETS: ViewPreset[] = [
-  { label: 'Left Lateral', abbr: 'L', position: [-200, 0, 0], up: [0, 0, 1] },
-  { label: 'Right Lateral', abbr: 'R', position: [200, 0, 0], up: [0, 0, 1] },
-  { label: 'Dorsal', abbr: 'D', position: [0, 0, 200], up: [0, 1, 0] },
-  { label: 'Ventral', abbr: 'V', position: [0, 0, -200], up: [0, -1, 0] },
-  { label: 'Anterior', abbr: 'A', position: [0, 200, 0], up: [0, 0, 1] },
-  { label: 'Posterior', abbr: 'P', position: [0, -200, 0], up: [0, 0, 1] },
+  { label: 'Left', abbr: 'L', position: [-200, 0, 0], up: [0, 0, 1] },
+  { label: 'Right', abbr: 'R', position: [200, 0, 0], up: [0, 0, 1] },
+  { label: 'Top', abbr: 'D', position: [0, 0, 200], up: [0, 1, 0] },
+  { label: 'Bottom', abbr: 'V', position: [0, 0, -200], up: [0, -1, 0] },
+  { label: 'Front', abbr: 'A', position: [0, 200, 0], up: [0, 0, 1] },
+  { label: 'Back', abbr: 'P', position: [0, -200, 0], up: [0, 0, 1] },
 ];
 
 /* ------------------------------------------------------------------ */
@@ -99,14 +99,13 @@ export function CameraAnimator() {
 /*  HTML overlay: must live OUTSIDE <Canvas>                          */
 /* ------------------------------------------------------------------ */
 
-const buttonSize = 30;
-
 const containerStyle: React.CSSProperties = {
   position: 'absolute',
-  top: 12,
-  left: 12,
+  bottom: 12,
+  left: '50%',
+  transform: 'translateX(-50%)',
   display: 'flex',
-  flexDirection: 'column',
+  flexDirection: 'row',
   gap: 4,
   padding: 4,
   borderRadius: 8,
@@ -118,8 +117,7 @@ const containerStyle: React.CSSProperties = {
 };
 
 const baseButtonStyle: React.CSSProperties = {
-  width: buttonSize,
-  height: buttonSize,
+  height: 28,
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
@@ -129,11 +127,12 @@ const baseButtonStyle: React.CSSProperties = {
   color: '#5A5F70',
   fontSize: 11,
   fontFamily: "'JetBrains Mono', monospace",
-  fontWeight: 600,
+  fontWeight: 500,
   cursor: 'pointer',
   transition: 'background-color 150ms, color 150ms, border-color 150ms',
-  padding: 0,
+  padding: '4px 10px',
   lineHeight: 1,
+  whiteSpace: 'nowrap',
 };
 
 const hoverButtonStyle: React.CSSProperties = {
@@ -163,7 +162,7 @@ export function ViewPresetButtons() {
           onMouseLeave={() => setHoveredIndex(null)}
           onClick={() => handleClick(preset)}
         >
-          {preset.abbr}
+          {preset.label}
         </button>
       ))}
     </div>

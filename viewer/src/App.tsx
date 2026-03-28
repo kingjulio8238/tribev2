@@ -147,7 +147,7 @@ export function App() {
       style={{
         width: '100vw',
         height: '100vh',
-        backgroundColor: '#F4F5F7',
+        backgroundColor: '#FFFFFF',
         overflow: 'hidden',
         position: 'relative',
         padding: 12,
@@ -166,7 +166,7 @@ export function App() {
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            backgroundColor: 'rgba(244, 245, 247, 0.75)',
+            backgroundColor: 'rgba(255, 255, 255, 0.75)',
             zIndex: 100,
             pointerEvents: 'none',
           }}
@@ -202,7 +202,7 @@ export function App() {
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            backgroundColor: 'rgba(244, 245, 247, 0.90)',
+            backgroundColor: 'rgba(255, 255, 255, 0.90)',
             zIndex: 101,
           }}
         >
@@ -237,66 +237,6 @@ export function App() {
           gap: 10,
         }}
       >
-        {/* Header bar */}
-        <div
-          style={{
-            height: 44,
-            flexShrink: 0,
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-            padding: '0 20px',
-            backgroundColor: '#FFFFFF',
-            border: '1px solid #E8EAF0',
-            borderRadius: 12,
-            boxShadow: '0 1px 2px rgba(0,0,0,0.04)',
-          }}
-        >
-          <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-            {/* Brain icon */}
-            <svg
-              width="14"
-              height="14"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="#2B7A83"
-              strokeWidth="1.5"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            >
-              <path d="M12 2C9 2 6.5 4 6.5 7c0 1.5.5 2.8 1.3 3.8C6.5 12 5.5 13.5 5.5 15.5 5.5 18 7 20 9.5 20.5c.3.5 1 1.5 2.5 1.5s2.2-1 2.5-1.5C17 20 18.5 18 18.5 15.5c0-2-1-3.5-2.3-4.7.8-1 1.3-2.3 1.3-3.8C17.5 4 15 2 12 2z" />
-              <path d="M12 2v20" />
-              <path d="M8 8c1.5 0 2.5 1 4 1s2.5-1 4-1" />
-              <path d="M7.5 14c1.5.5 3 1 4.5 1s3-.5 4.5-1" />
-            </svg>
-            <span
-              style={{
-                fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
-                fontSize: 12,
-                fontWeight: 600,
-                color: '#4A4E5A',
-                letterSpacing: '0.04em',
-                textTransform: 'uppercase',
-                userSelect: 'none',
-              }}
-            >
-              TRIBE v2 Brain Viewer
-            </span>
-          </div>
-          <div
-            style={{
-              fontFamily: "'JetBrains Mono', monospace",
-              fontSize: 11,
-              color: '#8B90A0',
-              letterSpacing: '0.05em',
-            }}
-          >
-            TR {playback.timestepIndex + 1}
-            <span style={{ color: '#C0C4D0', margin: '0 4px' }}>/</span>
-            {playback.nTimesteps}
-          </div>
-        </div>
-
         {/* Main panels */}
         <div
           style={{

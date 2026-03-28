@@ -8,25 +8,11 @@ export interface DemoConfig {
 
 export const DEMOS: DemoConfig[] = [
   {
-    id: 'synthetic',
-    name: 'Synthetic Demo',
-    description: 'Travelling wave across cortical surface',
+    id: 'sintel',
+    name: 'Sintel Trailer',
+    description: 'Brain response to Sintel animated trailer',
     basePath: '/data',
-    hasVideo: false,
-  },
-  {
-    id: 'video-demo',
-    name: 'Video Stimulus',
-    description: 'Brain response to naturalistic video',
-    basePath: '/data/demos/video',
     hasVideo: true,
-  },
-  {
-    id: 'audio-demo',
-    name: 'Audio Stimulus',
-    description: 'Brain response to speech audio',
-    basePath: '/data/demos/audio',
-    hasVideo: false,
   },
 ];
 

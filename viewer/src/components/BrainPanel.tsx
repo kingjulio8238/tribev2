@@ -110,7 +110,7 @@ export function BrainPanel({
         </div>
       )}
       <Canvas
-        camera={{ position: initialCameraPosition ?? [0, 0, 200], fov: 50 }}
+        camera={{ position: initialCameraPosition ?? [0, 250, 0], fov: 50, up: [0, 0, 1] }}
         gl={{ preserveDrawingBuffer: true, alpha: true }}
         style={{ width: '100%', height: '100%', background: 'radial-gradient(ellipse at center, #F0F1F4 0%, #E4E6EC 100%)' }}
       >
@@ -137,7 +137,7 @@ export function BrainPanel({
           enableZoom={true}
           enableRotate={true}
           minDistance={100}
-          maxDistance={500}
+          maxDistance={700}
         />
         <CameraAnimator />
       </Canvas>

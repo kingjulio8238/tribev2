@@ -3,44 +3,43 @@ interface ColorBarProps {
 }
 
 export function ColorBar({ vmin = 0.5 }: ColorBarProps) {
-  const barWidth = 12;
-  const barHeight = 140;
+  const barWidth = 200;
+  const barHeight = 10;
 
-  // Fire colormap gradient stops (colorcet fire) - top is high, bottom is low
+  // Fire colormap gradient stops (colorcet fire) - left is low, right is high
   const fireStops = [
-    { offset: 0, color: '#ffffd9' },   // near white (high)
-    { offset: 0.2, color: '#ffbf33' }, // yellow-orange
-    { offset: 0.4, color: '#f27308' }, // orange
-    { offset: 0.6, color: '#bf2600' }, // red-orange
-    { offset: 0.8, color: '#590000' }, // dark red
-    { offset: 1.0, color: '#000000' }, // black (low)
+    { offset: 0, color: '#000000' },   // black (low)
+    { offset: 0.2, color: '#590000' }, // dark red
+    { offset: 0.4, color: '#bf2600' }, // red-orange
+    { offset: 0.6, color: '#f27308' }, // orange
+    { offset: 0.8, color: '#ffbf33' }, // yellow-orange
+    { offset: 1.0, color: '#ffffd9' }, // near white (high)
   ];
 
   const gradientCSS = fireStops
     .map((s) => `${s.color} ${s.offset * 100}%`)
     .join(', ');
 
-  // vmin position: 0 = bottom (low), 1 = top (high)
-  // In CSS top-down layout: position from top = (1 - vmin) * 100%
-  const vminFromTop = (1 - vmin) * barHeight;
+  // vmin position: 0 = left (low), 1 = right (high)
+  const vminFromLeft = vmin * barWidth;
 
   return (
     <div
       style={{
         position: 'absolute',
-        right: 16,
-        top: '50%',
-        transform: 'translateY(-50%)',
+        bottom: 60,
+        left: '50%',
+        transform: 'translateX(-50%)',
         pointerEvents: 'none',
         background: '#FFFFFF',
         borderRadius: 8,
         border: '1px solid #E8EAF0',
         boxShadow: '0 2px 8px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04)',
-        padding: '10px 10px 10px 10px',
+        padding: '8px 14px',
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
-        gap: 6,
+        gap: 4,
       }}
     >
       {/* Title */}
@@ -57,59 +56,35 @@ export function ColorBar({ vmin = 0.5 }: ColorBarProps) {
         Activation
       </span>
 
-      {/* Main bar area */}
+      {/* Bar area with labels */}
       <div
         style={{
-          position: 'relative',
           display: 'flex',
           flexDirection: 'row',
-          alignItems: 'stretch',
-          height: barHeight,
+          alignItems: 'center',
+          gap: 6,
         }}
       >
-        {/* Left labels column */}
-        <div
+        {/* Low label */}
+        <span
           style={{
-            display: 'flex',
-            flexDirection: 'column',
-            justifyContent: 'space-between',
-            alignItems: 'flex-end',
-            height: barHeight,
-            marginRight: 5,
-            position: 'relative',
+            fontSize: 8,
+            fontFamily: 'monospace',
+            color: '#8B90A0',
+            lineHeight: 1,
           }}
         >
-          <span
-            style={{
-              fontSize: 8,
-              fontFamily: 'monospace',
-              color: '#8B90A0',
-              lineHeight: 1,
-            }}
-          >
-            High
-          </span>
-          <span
-            style={{
-              fontSize: 8,
-              fontFamily: 'monospace',
-              color: '#8B90A0',
-              lineHeight: 1,
-            }}
-          >
-            Low
-          </span>
-        </div>
+          Low
+        </span>
 
-        {/* Gradient bar with dimmed region below vmin */}
+        {/* Gradient bar with vmin tick */}
         <div
           style={{
             position: 'relative',
             width: barWidth,
             height: barHeight,
             borderRadius: 2,
-            overflow: 'hidden',
-            border: '1px solid #D8DBE4',
+            overflow: 'visible',
           }}
         >
           {/* Full gradient */}
@@ -117,68 +92,48 @@ export function ColorBar({ vmin = 0.5 }: ColorBarProps) {
             style={{
               width: '100%',
               height: '100%',
-              background: `linear-gradient(to bottom, ${gradientCSS})`,
+              borderRadius: 2,
+              overflow: 'hidden',
+              border: '1px solid #D8DBE4',
+              background: `linear-gradient(to right, ${gradientCSS})`,
             }}
           />
-          {/* Dimmed overlay below vmin */}
+          {/* Dimmed overlay below vmin (left portion) */}
           <div
             style={{
               position: 'absolute',
               left: 0,
-              top: vminFromTop,
-              width: '100%',
-              height: barHeight - vminFromTop,
+              top: 0,
+              width: vminFromLeft,
+              height: barHeight,
               background: 'rgba(255, 255, 255, 0.55)',
+              borderRadius: '2px 0 0 2px',
             }}
           />
-          {/* vmin tick mark */}
+          {/* vmin tick mark (vertical line) */}
           <div
             style={{
               position: 'absolute',
-              left: 0,
-              top: vminFromTop,
-              width: '100%',
-              height: 1,
+              left: vminFromLeft,
+              top: -2,
+              width: 1,
+              height: barHeight + 4,
               background: '#8B90A0',
             }}
           />
         </div>
 
-        {/* Right side: vmin label */}
-        <div
+        {/* High label */}
+        <span
           style={{
-            position: 'relative',
-            height: barHeight,
-            marginLeft: 4,
+            fontSize: 8,
+            fontFamily: 'monospace',
+            color: '#8B90A0',
+            lineHeight: 1,
           }}
         >
-          {/* Tick extending from bar */}
-          <div
-            style={{
-              position: 'absolute',
-              top: vminFromTop,
-              left: 0,
-              width: 4,
-              height: 1,
-              background: '#8B90A0',
-            }}
-          />
-          {/* Threshold label */}
-          <span
-            style={{
-              position: 'absolute',
-              top: vminFromTop - 5,
-              left: 6,
-              fontSize: 7,
-              fontFamily: 'monospace',
-              color: '#8B90A0',
-              whiteSpace: 'nowrap',
-              lineHeight: 1,
-            }}
-          >
-            threshold
-          </span>
-        </div>
+          High
+        </span>
       </div>
     </div>
   );

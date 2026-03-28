@@ -142,7 +142,20 @@ export function usePlayback({
     }
 
     const tick = (timestamp: number) => {
-      if (lastFrameTimeRef.current !== null) {
+      const video = videoRef?.current;
+      if (video && !video.paused && video.readyState >= 2) {
+        // Drive time from the video element when it is playing
+        const vt = video.currentTime;
+        if (vt >= durationRef.current) {
+          setIsPlaying(false);
+          lastFrameTimeRef.current = null;
+          syncVideoPause();
+          setCurrentTime(durationRef.current);
+        } else {
+          setCurrentTime(vt);
+        }
+      } else if (lastFrameTimeRef.current !== null) {
+        // Fallback: compute from RAF delta when no video is available
         const delta = ((timestamp - lastFrameTimeRef.current) / 1000) * playbackSpeedRef.current;
         setCurrentTime((prev) => {
           const next = prev + delta;
