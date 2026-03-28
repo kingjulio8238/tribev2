@@ -142,3 +142,45 @@ Per-version timing results for the TRIBE v2 pipeline. All benchmarks use the Sin
 - **Compile warmup:** Skipped in Colab due to forked subprocess CUDA constraint.
 
 **Conclusion:** v3 represents the practical T4 ceiling with monkey-patching. Next step: A100 GPU.
+
+## A100 — v3 optimizations on NVIDIA A100-SXM4-40GB
+
+**Date:** 2026-03-28
+**GPU:** NVIDIA A100-SXM4-40GB (42,406 MB VRAM)
+**CUDA:** 12.4 | **PyTorch:** 2.6.0+cu124
+**Optimizations:** BF16, torch.compile (reduce-overhead), no_grad, 32-frame subsample, cuDNN benchmark, TF32 matmul
+
+| Phase | Time | % | vs T4 v3 | vs T4 v0 |
+|---|---|---|---|---|
+| Download video | 0.52s | 0.1% | — | — |
+| Model load (checkpoint + init) | 5.62s | 1.4% | — | — |
+| Build events (audio + WhisperX) | 109.12s | 26.4% | fresh run | — |
+| Feature extraction: text (LLaMA 3.2-3B) | 23.52s | 5.7% | **1.53x** | **4.93x** |
+| Feature extraction: audio (Wav2Vec-BERT) | 10.05s | 2.4% | **1.74x** | **4.16x** |
+| Feature extraction: video (V-JEPA2) | 203.34s | 49.1% | **1.58x** | **8.72x** |
+| Feature extraction: subject_id | 0.01s | 0.0% | — | — |
+| Build dataloader | 0.01s | 0.0% | — | — |
+| Model inference (forward pass) | 2.21s | 0.5% | 1.70x | — |
+| Normalization | 0.02s | 0.0% | — | — |
+| Export mesh | 57.83s | 14.0% | partial cache | — |
+| Export predictions | 0.00s | 0.0% | — | — |
+| Export stimulus metadata | 0.98s | 0.2% | — | — |
+| Zip output | 0.53s | 0.1% | — | — |
+| **Total** | **413.75s (6.9 min)** | | | |
+| **Compute only** | **238.91s (4.0 min)** | | **1.58x vs T4** | **8.72x vs baseline** |
+
+**Key results:**
+- V-JEPA2: 1.95s/frame on A100 vs 3.1s/frame on T4 (**1.58x faster**)
+- A100 auto-selected: BF16, reduce-overhead compile, TF32 matmul
+- Compute phases (text+audio+video): 238s on A100 vs 376s on T4 (**1.58x**)
+- Non-compute overhead (WhisperX 109s, mesh 58s) dominated total — both are cached on re-runs
+
+## Summary
+
+| Version | GPU | Compute Time | V-JEPA2 s/frame | vs T4 Baseline |
+|---|---|---|---|---|
+| v0 (baseline) | T4 | 40.6 min | 17.0s | 1.0x |
+| v1 (FP16 + compile) | T4 | 12.8 min | 6.8s | 3.17x |
+| v2 (32-frame) | T4 | 7.9 min | 3.9s | 5.14x |
+| v3 (cuDNN bench) | T4 | 6.5 min | 3.1s | 6.21x |
+| **v3 (A100)** | **A100** | **4.0 min** (compute) | **1.95s** | **8.72x** |
