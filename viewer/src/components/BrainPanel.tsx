@@ -143,12 +143,6 @@ export function BrainPanel({
       </Canvas>
       <ViewPresetButtons />
       <ColorBar vmin={metadata?.vmin} />
-      <ExportControls
-        timestepIndex={timestepIndex}
-        currentTime={currentTime}
-        demoId={demoId}
-        canvasContainerRef={containerRef}
-      />
       <BrainTooltip
         visible={hoverInfo !== null}
         x={hoverInfo?.screenX ?? 0}
