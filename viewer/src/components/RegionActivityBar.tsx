@@ -113,7 +113,7 @@ export function RegionActivityBar({
                   transition: 'color 150ms',
                 }}
               >
-                {isActive ? '\u25B8 ' : ''}
+                {isActive ? '\u2022 ' : ''}
                 {region.name}
               </span>
 
