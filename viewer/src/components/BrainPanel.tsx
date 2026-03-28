@@ -112,7 +112,7 @@ export function BrainPanel({
       <Canvas
         camera={{ position: initialCameraPosition ?? [0, 250, 0], fov: 50, up: [0, 0, 1] }}
         gl={{ preserveDrawingBuffer: true, alpha: true }}
-        style={{ width: '100%', height: '100%', background: 'radial-gradient(ellipse at center, #F0F1F4 0%, #E4E6EC 100%)' }}
+        style={{ width: '100%', height: '100%', background: '#FFFFFF' }}
       >
         <ambientLight intensity={0.6} />
         <directionalLight position={[100, 100, 100]} intensity={0.7} />

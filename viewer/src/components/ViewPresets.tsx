@@ -14,12 +14,12 @@ interface ViewPreset {
 }
 
 const VIEW_PRESETS: ViewPreset[] = [
-  { label: 'Left', abbr: 'L', position: [-200, 0, 0], up: [0, 0, 1] },
-  { label: 'Right', abbr: 'R', position: [200, 0, 0], up: [0, 0, 1] },
-  { label: 'Top', abbr: 'D', position: [0, 0, 200], up: [0, 1, 0] },
-  { label: 'Bottom', abbr: 'V', position: [0, 0, -200], up: [0, -1, 0] },
-  { label: 'Front', abbr: 'A', position: [0, 200, 0], up: [0, 0, 1] },
-  { label: 'Back', abbr: 'P', position: [0, -200, 0], up: [0, 0, 1] },
+  { label: 'Temporal', abbr: 'L', position: [-200, 0, 0], up: [0, 0, 1] },
+  { label: 'Parietal', abbr: 'R', position: [200, 0, 0], up: [0, 0, 1] },
+  { label: 'Dorsal', abbr: 'D', position: [0, 0, 200], up: [0, 1, 0] },
+  { label: 'Ventral', abbr: 'V', position: [0, 0, -200], up: [0, -1, 0] },
+  { label: 'Frontal', abbr: 'A', position: [0, 200, 0], up: [0, 0, 1] },
+  { label: 'Occipital', abbr: 'P', position: [0, -200, 0], up: [0, 0, 1] },
 ];
 
 /* ------------------------------------------------------------------ */

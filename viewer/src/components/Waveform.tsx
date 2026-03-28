@@ -68,7 +68,7 @@ export function Waveform({ currentTime, duration, onClick }: WaveformProps) {
     ctx.scale(dpr, dpr);
 
     // Clear
-    ctx.fillStyle = '#F0F1F4';
+    ctx.fillStyle = '#FFFFFF';
     ctx.fillRect(0, 0, width, height);
 
     // Generate bars if needed
@@ -117,7 +117,7 @@ export function Waveform({ currentTime, duration, onClick }: WaveformProps) {
     // Gradient fade at left edge
     const fadeWidth = 24;
     const leftGrad = ctx.createLinearGradient(0, 0, fadeWidth, 0);
-    leftGrad.addColorStop(0, '#F0F1F4');
+    leftGrad.addColorStop(0, '#FFFFFF');
     leftGrad.addColorStop(1, 'rgba(240, 241, 244, 0)');
     ctx.fillStyle = leftGrad;
     ctx.fillRect(0, 0, fadeWidth, height);
@@ -125,7 +125,7 @@ export function Waveform({ currentTime, duration, onClick }: WaveformProps) {
     // Gradient fade at right edge
     const rightGrad = ctx.createLinearGradient(width - fadeWidth, 0, width, 0);
     rightGrad.addColorStop(0, 'rgba(240, 241, 244, 0)');
-    rightGrad.addColorStop(1, '#F0F1F4');
+    rightGrad.addColorStop(1, '#FFFFFF');
     ctx.fillStyle = rightGrad;
     ctx.fillRect(width - fadeWidth, 0, fadeWidth, height);
 
@@ -178,7 +178,7 @@ export function Waveform({ currentTime, duration, onClick }: WaveformProps) {
         width: '100%',
         height: '100%',
         position: 'relative',
-        backgroundColor: '#F0F1F4',
+        backgroundColor: '#FFFFFF',
       }}
     >
       <canvas
