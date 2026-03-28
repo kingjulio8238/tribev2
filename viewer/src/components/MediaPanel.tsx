@@ -73,17 +73,13 @@ export function MediaPanel({
         overflow: 'hidden',
       }}
     >
-      {/* Video area - 50% */}
+      {/* Video area - sized to video's natural aspect ratio */}
       <div
         style={{
-          flex: '1 1 50%',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
+          flexShrink: 0,
           borderBottom: '1px solid #EEF0F4',
-          padding: 16,
           overflow: 'hidden',
-          minHeight: 0,
+          lineHeight: 0,
         }}
       >
         {videoSrc && !videoError ? (
@@ -94,10 +90,7 @@ export function MediaPanel({
             onLoadedMetadata={handleLoadedMetadata}
             style={{
               width: '100%',
-              height: '100%',
-              borderRadius: 8,
-              border: '1px solid #E8EAF0',
-              objectFit: 'cover',
+              display: 'block',
             }}
             playsInline
           />
