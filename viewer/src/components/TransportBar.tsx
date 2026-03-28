@@ -289,7 +289,7 @@ export function TransportBar({
 }
 
 const buttonStyle: React.CSSProperties = {
-  background: '#F4F5F7',
+  background: '#FFFFFF',
   border: '1px solid #D8DBE4',
   borderRadius: 6,
   color: '#5A5F70',
