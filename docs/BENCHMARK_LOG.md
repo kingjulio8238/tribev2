@@ -96,10 +96,41 @@ Per-version timing results for the TRIBE v2 pipeline. All benchmarks use the Sin
 - Peak GPU memory: 6.8 GB reserved (during audio) then 4.3 GB during video — well within T4 capacity
 - Total pipeline: 40.6 min → 7.9 min (**5.14x faster** vs baseline)
 
+## v3 — cuDNN benchmark mode
+
+**Date:** 2026-03-28
+**GPU:** Tesla T4 (15,637 MB VRAM)
+**CUDA:** 12.4 | **PyTorch:** 2.6.0+cu124
+**Optimizations:** v2 + `torch.backends.cudnn.benchmark = True`
+
+| Phase | Time | % | vs v0 | vs v2 |
+|---|---|---|---|---|
+| Download video | 0.25s | 0.1% | — | — |
+| Model load (checkpoint + init) | 2.85s | 0.7% | — | — |
+| Build events (audio + WhisperX) | 3.76s | 1.0% | cached | — |
+| Feature extraction: text (LLaMA 3.2-3B) | 35.92s | 9.2% | **3.23x** | — |
+| Feature extraction: audio (Wav2Vec-BERT) | 17.51s | 4.5% | 2.39x | — |
+| Feature extraction: video (V-JEPA2) | 322.21s | 82.3% | **5.50x** | **1.26x** |
+| Feature extraction: subject_id | 0.01s | 0.0% | — | — |
+| Build dataloader | 0.01s | 0.0% | — | — |
+| Model inference (forward pass) | 4.60s | 1.2% | — | — |
+| Normalization | 0.03s | 0.0% | — | — |
+| Export mesh | 0.44s | 0.1% | **454x** | — |
+| Export predictions | 0.01s | 0.0% | — | — |
+| Export stimulus metadata | 3.50s | 0.9% | — | — |
+| Zip output | 0.69s | 0.2% | — | — |
+| **Total** | **391.77s (6.5 min)** | | **6.21x** | **1.21x** |
+
+**Key results:**
+- V-JEPA2: 405s → 322s (**20% faster** vs v2, **5.50x** vs baseline). 3.1s/frame.
+- cuDNN benchmark auto-tuned kernels for the fixed 256px input size
+- Total pipeline: 40.6 min → 6.5 min (**6.21x faster** vs baseline)
+
 ## Summary
 
 | Version | Total Time | vs Baseline | V-JEPA2 Time | V-JEPA2 s/frame |
 |---|---|---|---|---|
 | v0 (baseline) | 40.6 min | 1.0x | 29.5 min | 17.0s |
 | v1 (FP16 + compile) | 12.8 min | 3.17x | 11.7 min | 6.8s |
-| **v2 (32-frame subsample)** | **7.9 min** | **5.14x** | **6.7 min** | **3.9s** |
+| v2 (32-frame subsample) | 7.9 min | 5.14x | 6.7 min | 3.9s |
+| **v3 (cuDNN benchmark)** | **6.5 min** | **6.21x** | **5.4 min** | **3.1s** |
