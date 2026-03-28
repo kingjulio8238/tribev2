@@ -2,7 +2,6 @@ import { useRef, useEffect, useState, useCallback } from 'react';
 import { MediaPanel } from './components/MediaPanel';
 import { BrainPanel } from './components/BrainPanel';
 import { TransportBar } from './components/TransportBar';
-import { DemoSelector } from './components/DemoSelector';
 import { usePlayback } from './hooks/usePlayback';
 import { useBrainData } from './hooks/useBrainData';
 import { DEMOS, DEFAULT_DEMO } from './utils/demos';
@@ -105,15 +104,6 @@ export function App() {
       window.history.replaceState({}, '', window.location.pathname);
     }
   }, [metadata, playback.seek]);
-
-  // Handle demo change: reset playback to time 0
-  const handleDemoChange = useCallback(
-    (demo: DemoConfig) => {
-      setCurrentDemo(demo);
-      playback.seek(0);
-    },
-    [playback.seek],
-  );
 
   // Keyboard shortcuts
   useEffect(() => {
