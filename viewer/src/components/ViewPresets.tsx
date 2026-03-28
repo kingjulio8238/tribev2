@@ -14,12 +14,12 @@ interface ViewPreset {
 }
 
 const VIEW_PRESETS: ViewPreset[] = [
-  { label: 'Temporal', abbr: 'L', position: [-200, 0, 0], up: [0, 0, 1] },
-  { label: 'Parietal', abbr: 'R', position: [200, 0, 0], up: [0, 0, 1] },
-  { label: 'Dorsal', abbr: 'D', position: [0, 0, 200], up: [0, 1, 0] },
-  { label: 'Ventral', abbr: 'V', position: [0, 0, -200], up: [0, -1, 0] },
-  { label: 'Frontal', abbr: 'A', position: [0, 200, 0], up: [0, 0, 1] },
-  { label: 'Occipital', abbr: 'P', position: [0, -200, 0], up: [0, 0, 1] },
+  { label: 'Temporal', abbr: 'L', position: [-300, 0, 0], up: [0, 0, 1] },
+  { label: 'Parietal', abbr: 'R', position: [300, 0, 0], up: [0, 0, 1] },
+  { label: 'Dorsal', abbr: 'D', position: [0, 0, 300], up: [0, 1, 0] },
+  { label: 'Ventral', abbr: 'V', position: [0, 0, -300], up: [0, -1, 0] },
+  { label: 'Frontal', abbr: 'A', position: [0, 300, 0], up: [0, 0, 1] },
+  { label: 'Occipital', abbr: 'P', position: [0, -300, 0], up: [0, 0, 1] },
 ];
 
 /* ------------------------------------------------------------------ */
@@ -141,30 +141,43 @@ const hoverButtonStyle: React.CSSProperties = {
   borderColor: '#D8DBE4',
 };
 
+const activeButtonStyle: React.CSSProperties = {
+  backgroundColor: '#1A1D26',
+  color: '#FFFFFF',
+  borderColor: '#1A1D26',
+};
+
 export function ViewPresetButtons() {
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
+  const [activeIndex, setActiveIndex] = useState<number | null>(null);
 
-  const handleClick = useCallback((preset: ViewPreset) => {
+  const handleClick = useCallback((preset: ViewPreset, index: number) => {
     requestCameraMove(preset);
+    setActiveIndex(index);
   }, []);
 
   return (
     <div style={containerStyle}>
-      {VIEW_PRESETS.map((preset, i) => (
-        <button
-          key={preset.abbr}
-          title={preset.label}
-          style={{
-            ...baseButtonStyle,
-            ...(hoveredIndex === i ? hoverButtonStyle : {}),
-          }}
-          onMouseEnter={() => setHoveredIndex(i)}
-          onMouseLeave={() => setHoveredIndex(null)}
-          onClick={() => handleClick(preset)}
-        >
-          {preset.label}
-        </button>
-      ))}
+      {VIEW_PRESETS.map((preset, i) => {
+        const isActive = activeIndex === i;
+        const isHovered = hoveredIndex === i && !isActive;
+        return (
+          <button
+            key={preset.abbr}
+            title={preset.label}
+            style={{
+              ...baseButtonStyle,
+              ...(isActive ? activeButtonStyle : {}),
+              ...(isHovered ? hoverButtonStyle : {}),
+            }}
+            onMouseEnter={() => setHoveredIndex(i)}
+            onMouseLeave={() => setHoveredIndex(null)}
+            onClick={() => handleClick(preset, i)}
+          >
+            {preset.label}
+          </button>
+        );
+      })}
     </div>
   );
 }
