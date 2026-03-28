@@ -20,17 +20,10 @@ interface RegionActivityBarProps {
 /* ------------------------------------------------------------------ */
 
 const containerStyle: React.CSSProperties = {
-  position: 'absolute',
-  bottom: 16,
-  left: '50%',
-  transform: 'translateX(-50%)',
+  flexShrink: 0,
   backgroundColor: '#FFFFFF',
-  border: '1px solid #E8EAF0',
-  borderRadius: 10,
-  boxShadow: '0 2px 8px rgba(0,0,0,0.06)',
-  padding: '12px 16px',
-  minWidth: 400,
-  zIndex: 10,
+  borderTop: '1px solid #E8EAF0',
+  padding: '10px 20px',
   pointerEvents: 'auto' as const,
 };
 
