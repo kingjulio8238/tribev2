@@ -122,7 +122,7 @@ const baseButtonStyle: React.CSSProperties = {
   alignItems: 'center',
   justifyContent: 'center',
   borderRadius: 5,
-  border: '1px solid #E8EAF0',
+  border: '1px solid transparent',
   backgroundColor: 'transparent',
   color: '#5A5F70',
   fontSize: 11,
@@ -138,13 +138,14 @@ const baseButtonStyle: React.CSSProperties = {
 const hoverButtonStyle: React.CSSProperties = {
   backgroundColor: '#F4F5F7',
   color: '#1A1D26',
-  borderColor: '#D8DBE4',
+  borderColor: 'transparent',
 };
 
 const activeButtonStyle: React.CSSProperties = {
-  backgroundColor: '#1A1D26',
-  color: '#FFFFFF',
+  backgroundColor: 'transparent',
+  color: '#1A1D26',
   borderColor: '#1A1D26',
+  fontWeight: 600,
 };
 
 export function ViewPresetButtons() {
