@@ -1,0 +1,109 @@
+{
+  "gpu_name": "Tesla T4",
+  "gpu_vram_mb": 15637.086208,
+  "cuda_version": "12.4",
+  "torch_version": "2.6.0+cu124",
+  "video_duration_s": 52.21,
+  "video_file": "sintel_trailer.mp4",
+  "phases": [
+    {
+      "name": "2. Download video",
+      "elapsed_s": 0.317,
+      "gpu_mem_allocated_mb": 0.0,
+      "gpu_mem_reserved_mb": 0.0,
+      "notes": ""
+    },
+    {
+      "name": "3. Model load (checkpoint + init)",
+      "elapsed_s": 2.627,
+      "gpu_mem_allocated_mb": 710.1,
+      "gpu_mem_reserved_mb": 792.7,
+      "notes": "Downloads ~709MB checkpoint on first run, inits config"
+    },
+    {
+      "name": "4. Build events (audio + WhisperX)",
+      "elapsed_s": 3.368,
+      "gpu_mem_allocated_mb": 710.1,
+      "gpu_mem_reserved_mb": 792.7,
+      "notes": "ExtractAudioFromVideo, ChunkEvents, WhisperX, AddText/Context"
+    },
+    {
+      "name": "5. Feature extraction: text",
+      "elapsed_s": 35.578,
+      "gpu_mem_allocated_mb": 6434.5,
+      "gpu_mem_reserved_mb": 6543.1,
+      "notes": "extractor type: HuggingFaceText"
+    },
+    {
+      "name": "5. Feature extraction: audio",
+      "elapsed_s": 17.316,
+      "gpu_mem_allocated_mb": 2330.5,
+      "gpu_mem_reserved_mb": 6815.7,
+      "notes": "extractor type: Wav2VecBert"
+    },
+    {
+      "name": "5. Feature extraction: video",
+      "elapsed_s": 404.851,
+      "gpu_mem_allocated_mb": 8.5,
+      "gpu_mem_reserved_mb": 4318.0,
+      "notes": "extractor type: HuggingFaceVideo"
+    },
+    {
+      "name": "5. Feature extraction: subject_id",
+      "elapsed_s": 0.013,
+      "gpu_mem_allocated_mb": 8.5,
+      "gpu_mem_reserved_mb": 21.0,
+      "notes": "extractor type: LabelEncoder"
+    },
+    {
+      "name": "6. Build dataloader",
+      "elapsed_s": 0.009,
+      "gpu_mem_allocated_mb": 8.5,
+      "gpu_mem_reserved_mb": 21.0,
+      "notes": "Segment creation + SegmentDataset init"
+    },
+    {
+      "name": "7. Model inference (forward pass)",
+      "elapsed_s": 5.345,
+      "gpu_mem_allocated_mb": 8.5,
+      "gpu_mem_reserved_mb": 21.0,
+      "notes": "Transformer forward pass over all batches"
+    },
+    {
+      "name": "8. Normalization (robust_normalize)",
+      "elapsed_s": 0.021,
+      "gpu_mem_allocated_mb": 8.5,
+      "gpu_mem_reserved_mb": 21.0,
+      "notes": "Per-vertex 99th percentile normalization"
+    },
+    {
+      "name": "9a. Export mesh",
+      "elapsed_s": 0.513,
+      "gpu_mem_allocated_mb": 8.5,
+      "gpu_mem_reserved_mb": 21.0,
+      "notes": "fsaverage5 vertices, faces, sulcal depth, HCP parcellation"
+    },
+    {
+      "name": "9b. Export predictions",
+      "elapsed_s": 0.008,
+      "gpu_mem_allocated_mb": 8.5,
+      "gpu_mem_reserved_mb": 21.0,
+      "notes": "Binary predictions + metadata JSON"
+    },
+    {
+      "name": "9c. Export stimulus metadata",
+      "elapsed_s": 2.443,
+      "gpu_mem_allocated_mb": 8.5,
+      "gpu_mem_reserved_mb": 21.0,
+      "notes": "segments.json + video copy + thumbnails"
+    },
+    {
+      "name": "10. Zip output",
+      "elapsed_s": 0.54,
+      "gpu_mem_allocated_mb": 8.5,
+      "gpu_mem_reserved_mb": 21.0,
+      "notes": ""
+    }
+  ],
+  "optimizations_enabled": true
+}

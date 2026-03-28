@@ -52,21 +52,21 @@ Full data: `benchmark_results_optimized.json`
    - Expected: 703s → ~350-450s
    - Risk: Medium — may affect prediction quality, needs comparison
 
-8. **FP16 for Wav2Vec-BERT audio** — Same half-precision + no_grad pattern. Currently 18s.
-   - Expected: 18s → ~9s
+8. **Brain model CPU offload** — Moves tribev2 brain model to CPU during feature extraction to free ~710 MB GPU for extractors.
 
-9. **torch.compile for LLaMA text** — Adds compilation on top of existing FP16. Currently 33s.
-   - Expected: 33s → ~20s
+9. **torch.compile default mode** — Switched from `reduce-overhead` to `default` mode. The `reduce-overhead` mode allocates persistent CUDA graph pools that cause OOM for subsequent extractors on T4.
 
-### Projected v2 impact
+### Actual v2 results
 
-| Phase | v1 | v2 (projected) | Speedup |
+| Phase | v1 | v2 | Speedup |
 |---|---|---|---|
-| V-JEPA2 video | 703s | ~350-450s | ~1.5-2x |
-| LLaMA text | 33s | ~20s | ~1.7x |
-| Wav2Vec audio | 18s | ~9s | ~2x |
-| **Total** | **768s (12.8 min)** | **~400-500s (6.7-8.3 min)** | **~1.5-1.9x** |
-| **vs baseline** | 3.17x | **~5-6x** | |
+| V-JEPA2 video | 703s | **405s** | **1.74x** |
+| LLaMA text | 33s | 36s | — |
+| Wav2Vec audio | 18s | 17s | — |
+| **Total** | **768s (12.8 min)** | **473s (7.9 min)** | **1.62x** |
+| **vs baseline** | 3.17x | **5.14x** | |
+
+**Note:** Audio FP16 and text torch.compile were removed from v2 due to OOM on T4. These would help on higher-VRAM GPUs (A100/H100).
 
 ### Configuration
 

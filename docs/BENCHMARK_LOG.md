@@ -65,3 +65,41 @@ Per-version timing results for the TRIBE v2 pipeline. All benchmarks use the Sin
 - Mesh export: 200s → 0.45s (**444x faster** via prefetch)
 - Peak GPU memory: 6.6 GB reserved (vs 13.2 GB baseline) — **50% less VRAM**
 - Total pipeline: 40.6 min → 12.8 min (**3.17x faster**)
+
+## v2 — Frame subsampling (64→32) + memory optimization
+
+**Date:** 2026-03-28
+**GPU:** Tesla T4 (15,637 MB VRAM)
+**CUDA:** 12.4 | **PyTorch:** 2.6.0+cu124
+**Optimizations:** v1 + frame subsampling (64→32 frames), torch.compile default mode, brain model offloaded to CPU during extraction
+
+| Phase | Time | % | vs v0 | vs v1 |
+|---|---|---|---|---|
+| Download video | 0.32s | 0.1% | — | — |
+| Model load (checkpoint + init) | 2.63s | 0.6% | 5.07x | — |
+| Build events (audio + WhisperX) | 3.37s | 0.7% | cached | — |
+| Feature extraction: text (LLaMA 3.2-3B) | 35.58s | 7.5% | **3.26x** | — |
+| Feature extraction: audio (Wav2Vec-BERT) | 17.32s | 3.7% | 2.41x | — |
+| Feature extraction: video (V-JEPA2) | 404.85s | 85.6% | **4.38x** | **1.74x** |
+| Feature extraction: subject_id | 0.01s | 0.0% | — | — |
+| Build dataloader | 0.01s | 0.0% | — | — |
+| Model inference (forward pass) | 5.35s | 1.1% | — | — |
+| Normalization | 0.02s | 0.0% | — | — |
+| Export mesh | 0.51s | 0.1% | **392x** | — |
+| Export predictions | 0.01s | 0.0% | — | — |
+| Export stimulus metadata | 2.44s | 0.5% | — | — |
+| Zip output | 0.54s | 0.1% | — | — |
+| **Total** | **472.95s (7.9 min)** | | **5.14x** | **1.62x** |
+
+**Key results:**
+- V-JEPA2: 703s → 405s (**1.74x faster** vs v1, **4.38x** vs baseline). 3.9s/frame with 32 frames.
+- Peak GPU memory: 6.8 GB reserved (during audio) then 4.3 GB during video — well within T4 capacity
+- Total pipeline: 40.6 min → 7.9 min (**5.14x faster** vs baseline)
+
+## Summary
+
+| Version | Total Time | vs Baseline | V-JEPA2 Time | V-JEPA2 s/frame |
+|---|---|---|---|---|
+| v0 (baseline) | 40.6 min | 1.0x | 29.5 min | 17.0s |
+| v1 (FP16 + compile) | 12.8 min | 3.17x | 11.7 min | 6.8s |
+| **v2 (32-frame subsample)** | **7.9 min** | **5.14x** | **6.7 min** | **3.9s** |
