@@ -78,16 +78,45 @@ VJEPA2_NUM_FRAMES = 32  # 64 = default, 32 = subsampled
 
 ---
 
+## v5 — Production Optimizations
+
+**Status: Implemented, pending benchmark**
+
+### 10. Pre-bundled mesh
+
+The fsaverage5 brain mesh is identical for every video. Pre-generated once in the benchmark utilities cell and copied during export instead of downloading.
+- **Expected:** 58s → <1s
+- **Risk:** None
+
+### 11. faster-whisper (replaces WhisperX)
+
+Replaced the `uvx whisperx` subprocess call with `faster-whisper` library (CTranslate2 backend). Uses the same `large-v3` model weights with optimized inference.
+- **Expected:** 109s → ~15-20s (5-7x faster)
+- **Risk:** Low — same model, optimized runtime
+
+### 12. Parallel text + audio extraction
+
+Text (LLaMA) and audio (Wav2Vec-BERT) extraction are independent. Run concurrently via ThreadPoolExecutor instead of sequentially.
+- **Expected:** max(24s, 10s) = ~24s instead of 24s + 10s = 34s
+- **Risk:** Low — A100 has plenty of VRAM for both models
+
+### Projected v5 impact (A100)
+
+| Phase | A100 v3 | v5 (projected) |
+|---|---|---|
+| WhisperX → faster-whisper | 109s | ~15-20s |
+| Mesh export → pre-bundled | 58s | <1s |
+| Text + Audio (parallel) | 34s | ~24s |
+| V-JEPA2 video | 203s | 203s |
+| **Total** | **414s (6.9 min)** | **~250s (4.2 min)** |
+
 ## Future Optimizations (Not Yet Implemented)
 
 ### Batch timestep encoding
-Process multiple timesteps in a single forward pass. Currently V-JEPA2 processes one timestep per call. Batching 2-4 timesteps would improve GPU utilization but requires restructuring the neuralset encoding loop.
-
-### WhisperX backend swap
-Replace WhisperX with `faster-whisper` (CTranslate2 backend) for 2-5x faster transcription.
+Process multiple timesteps in a single forward pass. Requires restructuring the neuralset encoding loop.
 
 ### INT8 quantization
 Post-training INT8 via `bitsandbytes` or `torch.ao.quantization`. ~20% beyond FP16.
 
-### GPU selection
-A100 (40/80GB) or H100 would be significantly faster than T4, with more VRAM for larger batches.
+### H100 GPU
+H100 has ~2x the compute of A100. Would bring V-JEPA2 to ~1s/frame.
