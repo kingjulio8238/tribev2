@@ -132,10 +132,10 @@ export function Waveform({ currentTime, duration, onClick }: WaveformProps) {
     // Time labels
     ctx.font = '9px monospace';
     ctx.textBaseline = 'bottom';
-    // Start label
+    // Current time label
     ctx.fillStyle = '#8B90A0';
     ctx.textAlign = 'left';
-    ctx.fillText(formatTimeLabel(0), 4, height - 3);
+    ctx.fillText(formatTimeLabel(ct), 4, height - 3);
     // End label
     if (dur > 0) {
       ctx.textAlign = 'right';

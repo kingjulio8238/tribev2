@@ -57,7 +57,7 @@ export function RegionActivityBar({
 
   return (
     <div style={containerStyle}>
-      <div style={titleStyle}>Region Activity</div>
+      <div style={titleStyle}>Brain Region Activity</div>
       <div style={rowsContainerStyle}>
         {regions.map((region, i) => {
           const isActive = activeIndex === i;

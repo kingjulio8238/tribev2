@@ -93,12 +93,11 @@ export function MediaPanel({
             onError={handleVideoError}
             onLoadedMetadata={handleLoadedMetadata}
             style={{
-              maxWidth: '100%',
-              maxHeight: '100%',
+              width: '100%',
+              height: '100%',
               borderRadius: 8,
               border: '1px solid #E8EAF0',
-              backgroundColor: '#0C0C0C',
-              objectFit: 'contain',
+              objectFit: 'cover',
             }}
             playsInline
           />
