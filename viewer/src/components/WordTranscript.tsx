@@ -22,29 +22,46 @@ export function WordTranscript({ currentTime, segments }: WordTranscriptProps) {
   const scrollRef = useRef<HTMLDivElement>(null);
   const activeRef = useRef<HTMLSpanElement>(null);
 
-  // Flatten all words from all segments into a single list
+  // Flatten all words from all segments, deduplicate, and sort by start time
   const words: FlatWord[] = useMemo(() => {
     if (!segments) return [];
+    const seen = new Set<string>();
     const result: FlatWord[] = [];
     for (const seg of segments) {
       for (const w of seg.words) {
-        result.push({ text: w.text, start: w.start, end: w.end });
+        const key = `${w.start.toFixed(3)}|${w.text}`;
+        if (!seen.has(key)) {
+          seen.add(key);
+          result.push({ text: w.text, start: w.start, end: w.end });
+        }
       }
     }
+    result.sort((a, b) => a.start - b.start);
     return result;
   }, [segments]);
 
-  // Find the index of the currently active word
+  // Find the index of the currently active word.
+  // A word is active if currentTime falls within [start, end].
+  // If between words, highlight the next upcoming word within 0.5s,
+  // otherwise highlight the most recently finished word.
   const activeIndex = useMemo(() => {
+    if (words.length === 0) return -1;
+    // Exact match
     for (let i = 0; i < words.length; i++) {
       if (currentTime >= words[i].start && currentTime <= words[i].end) {
         return i;
       }
     }
-    // If between words, find the most recent word
+    // Between words — find the next word within 0.5s
+    for (let i = 0; i < words.length; i++) {
+      if (words[i].start > currentTime && words[i].start - currentTime < 0.5) {
+        return i;
+      }
+    }
+    // Otherwise most recent past word
     let closest = -1;
     for (let i = 0; i < words.length; i++) {
-      if (words[i].end <= currentTime) {
+      if (words[i].start <= currentTime) {
         closest = i;
       }
     }
