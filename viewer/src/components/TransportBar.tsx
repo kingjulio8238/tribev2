@@ -110,13 +110,15 @@ export function TransportBar({
   return (
     <div
       style={{
-        height: 56,
-        backgroundColor: '#0d0d14',
-        borderTop: '1px solid #1a1a2e',
+        height: 52,
+        backgroundColor: '#FFFFFF',
+        border: '1px solid #E8EAF0',
+        borderRadius: 12,
+        boxShadow: '0 1px 2px rgba(0,0,0,0.04)',
         display: 'flex',
         alignItems: 'center',
-        padding: '0 16px',
-        gap: 12,
+        padding: '0 20px',
+        gap: 14,
         flexShrink: 0,
         transition: 'border-color 150ms',
       }}
@@ -178,9 +180,9 @@ export function TransportBar({
             onClick={() => onSetPlaybackSpeed(speed)}
             style={{
               ...speedButtonStyle,
-              color: playbackSpeed === speed ? '#4a8a9a' : '#555',
-              borderColor: playbackSpeed === speed ? '#4a8a9a' : '#2a2a3e',
-              backgroundColor: playbackSpeed === speed ? 'rgba(74, 138, 154, 0.1)' : 'transparent',
+              color: playbackSpeed === speed ? '#2B7A83' : '#8B90A0',
+              borderColor: playbackSpeed === speed ? '#2B7A83' : '#D8DBE4',
+              backgroundColor: playbackSpeed === speed ? 'rgba(43, 122, 131, 0.08)' : 'transparent',
             }}
             title={`Playback speed ${speed}x`}
             tabIndex={0}
@@ -193,9 +195,10 @@ export function TransportBar({
       {/* Time display */}
       <div
         style={{
-          fontFamily: 'monospace',
+          fontFamily: "'JetBrains Mono', monospace",
           fontSize: 12,
-          color: '#999',
+          fontWeight: 500,
+          color: '#4A4E5A',
           minWidth: 110,
           textAlign: 'center',
         }}
@@ -206,12 +209,12 @@ export function TransportBar({
       {/* Timestep indicator */}
       <div
         style={{
-          fontFamily: 'monospace',
+          fontFamily: "'JetBrains Mono', monospace",
           fontSize: 11,
-          color: '#667',
+          color: '#8B90A0',
           minWidth: 80,
           textAlign: 'center',
-          borderLeft: '1px solid #1a1a2e',
+          borderLeft: '1px solid #E8EAF0',
           paddingLeft: 12,
         }}
       >
@@ -243,7 +246,8 @@ export function TransportBar({
             transform: 'translateY(-50%)',
             width: '100%',
             height: 6,
-            backgroundColor: '#1a1a2e',
+            backgroundColor: '#E4E6EC',
+            boxShadow: 'inset 0 1px 2px rgba(0,0,0,0.04)',
             borderRadius: 3,
             overflow: 'hidden',
           }}
@@ -256,7 +260,7 @@ export function TransportBar({
               top: 0,
               height: '100%',
               width: `${progress * 100}%`,
-              backgroundColor: '#4a8a9a',
+              backgroundColor: '#2B7A83',
               borderRadius: 3,
               transition: isDragging ? 'none' : 'width 0.05s linear',
             }}
@@ -274,7 +278,7 @@ export function TransportBar({
               transform: 'translate(-50%, -50%)',
               width: 1,
               height: 10,
-              backgroundColor: 'rgba(74, 138, 154, 0.15)',
+              backgroundColor: 'rgba(43, 122, 131, 0.12)',
               pointerEvents: 'none',
             }}
           />
@@ -290,7 +294,7 @@ export function TransportBar({
               transform: 'translate(-50%, -50%)',
               width: 1,
               height: 14,
-              backgroundColor: 'rgba(255, 255, 255, 0.15)',
+              backgroundColor: 'rgba(0, 0, 0, 0.08)',
               pointerEvents: 'none',
             }}
           />
@@ -306,9 +310,9 @@ export function TransportBar({
             width: isDragging ? 14 : 10,
             height: isDragging ? 14 : 10,
             borderRadius: '50%',
-            backgroundColor: '#4a8a9a',
-            border: '2px solid #0d0d14',
-            boxShadow: '0 0 4px rgba(74, 138, 154, 0.4)',
+            backgroundColor: '#FFFFFF',
+            border: '2px solid #2B7A83',
+            boxShadow: '0 1px 4px rgba(0,0,0,0.12)',
             transition: isDragging ? 'none' : 'width 0.1s, height 0.1s, left 0.05s linear',
             pointerEvents: 'none',
             zIndex: 2,
@@ -320,10 +324,11 @@ export function TransportBar({
 }
 
 const buttonStyle: React.CSSProperties = {
-  background: 'none',
-  border: '1px solid #2a2a3e',
-  borderRadius: 4,
-  color: '#999',
+  background: '#F4F5F7',
+  border: '1px solid #D8DBE4',
+  borderRadius: 6,
+  color: '#5A5F70',
+  boxShadow: '0 1px 2px rgba(0,0,0,0.04)',
   cursor: 'pointer',
   padding: '6px 8px',
   display: 'flex',
@@ -334,7 +339,7 @@ const buttonStyle: React.CSSProperties = {
 
 const speedButtonStyle: React.CSSProperties = {
   background: 'none',
-  border: '1px solid #2a2a3e',
+  border: '1px solid #D8DBE4',
   borderRadius: 3,
   cursor: 'pointer',
   padding: '3px 6px',

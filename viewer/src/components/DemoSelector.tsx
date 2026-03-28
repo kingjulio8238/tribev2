@@ -103,7 +103,7 @@ export function DemoSelector({ demos, current, onChange }: DemoSelectorProps) {
                   <span
                     style={{
                       ...optionNameStyle,
-                      ...(isActive ? { color: '#e0e0f0' } : {}),
+                      ...(isActive ? { color: '#1A1D26' } : {}),
                     }}
                   >
                     {demo.name}
@@ -136,14 +136,13 @@ const triggerStyle: React.CSSProperties = {
   alignItems: 'center',
   gap: 8,
   padding: '7px 12px',
-  borderRadius: 6,
-  border: '1px solid rgba(255,255,255,0.08)',
-  backgroundColor: 'rgba(15, 15, 25, 0.80)',
-  backdropFilter: 'blur(8px)',
-  color: '#999ab0',
-  fontSize: 12,
-  fontFamily:
-    "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
+  borderRadius: 8,
+  border: '1px solid #E8EAF0',
+  backgroundColor: '#FFFFFF',
+  boxShadow: '0 2px 8px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04)',
+  color: '#4A4E5A',
+  fontSize: 12.5,
+  fontFamily: "Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
   fontWeight: 500,
   cursor: 'pointer',
   transition: 'background-color 150ms, border-color 150ms, color 150ms',
@@ -151,9 +150,9 @@ const triggerStyle: React.CSSProperties = {
 };
 
 const triggerOpenStyle: React.CSSProperties = {
-  backgroundColor: 'rgba(20, 20, 35, 0.92)',
-  borderColor: 'rgba(255,255,255,0.14)',
-  color: '#bbbcd0',
+  backgroundColor: '#F8F9FB',
+  borderColor: '#D8DBE4',
+  color: '#1A1D26',
 };
 
 const triggerLabelStyle: React.CSSProperties = {
@@ -166,7 +165,7 @@ const dotStyle: React.CSSProperties = {
   width: 6,
   height: 6,
   borderRadius: '50%',
-  backgroundColor: '#5b8af0',
+  backgroundColor: '#4A7AF5',
   flexShrink: 0,
 };
 
@@ -176,11 +175,10 @@ const dropdownStyle: React.CSSProperties = {
   right: 0,
   minWidth: 240,
   padding: 4,
-  borderRadius: 8,
-  border: '1px solid rgba(255,255,255,0.08)',
-  backgroundColor: 'rgba(13, 13, 22, 0.95)',
-  backdropFilter: 'blur(12px)',
-  boxShadow: '0 8px 32px rgba(0,0,0,0.5)',
+  borderRadius: 10,
+  border: '1px solid #E8EAF0',
+  backgroundColor: '#FFFFFF',
+  boxShadow: '0 8px 32px rgba(0,0,0,0.10), 0 2px 8px rgba(0,0,0,0.05)',
   display: 'flex',
   flexDirection: 'column',
   gap: 2,
@@ -191,7 +189,7 @@ const optionStyle: React.CSSProperties = {
   flexDirection: 'column',
   gap: 2,
   padding: '8px 10px',
-  borderRadius: 5,
+  borderRadius: 6,
   border: 'none',
   backgroundColor: 'transparent',
   cursor: 'pointer',
@@ -201,11 +199,11 @@ const optionStyle: React.CSSProperties = {
 };
 
 const optionActiveStyle: React.CSSProperties = {
-  backgroundColor: 'rgba(91, 138, 240, 0.12)',
+  backgroundColor: 'rgba(74, 122, 245, 0.06)',
 };
 
 const optionHoverStyle: React.CSSProperties = {
-  backgroundColor: 'rgba(255,255,255,0.05)',
+  backgroundColor: '#F4F5F7',
 };
 
 const optionNameRow: React.CSSProperties = {
@@ -216,23 +214,23 @@ const optionNameRow: React.CSSProperties = {
 
 const checkStyle: React.CSSProperties = {
   fontSize: 10,
-  color: '#5b8af0',
+  color: '#4A7AF5',
   lineHeight: 1,
 };
 
 const optionNameStyle: React.CSSProperties = {
   fontSize: 12,
   fontWeight: 500,
-  color: '#aaabbf',
+  color: '#1A1D26',
   fontFamily:
-    "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
+    "Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
 };
 
 const optionDescStyle: React.CSSProperties = {
   fontSize: 11,
-  color: '#666780',
+  color: '#8B90A0',
   fontFamily:
-    "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
+    "Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
   lineHeight: 1.35,
   paddingLeft: 16,
 };

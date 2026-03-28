@@ -184,7 +184,7 @@ export function ExportControls({
 /*  Styles                                                             */
 /* ------------------------------------------------------------------ */
 
-const BUTTON_SIZE = 28;
+const BUTTON_SIZE = 30;
 
 const containerStyle: React.CSSProperties = {
   position: 'absolute',
@@ -194,10 +194,10 @@ const containerStyle: React.CSSProperties = {
   flexDirection: 'row',
   gap: 4,
   padding: 4,
-  borderRadius: 6,
-  backgroundColor: 'rgba(15, 15, 25, 0.75)',
-  backdropFilter: 'blur(6px)',
-  border: '1px solid rgba(255,255,255,0.06)',
+  borderRadius: 8,
+  backgroundColor: '#FFFFFF',
+  border: '1px solid #E8EAF0',
+  boxShadow: '0 2px 8px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04)',
   zIndex: 10,
   pointerEvents: 'auto',
 };
@@ -208,10 +208,10 @@ const baseButtonStyle: React.CSSProperties = {
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
-  borderRadius: 4,
-  border: '1px solid rgba(255,255,255,0.10)',
-  backgroundColor: 'rgba(255,255,255,0.05)',
-  color: '#aaa',
+  borderRadius: 5,
+  border: '1px solid #E8EAF0',
+  backgroundColor: 'transparent',
+  color: '#5A5F70',
   cursor: 'pointer',
   transition: 'background-color 150ms, color 150ms, border-color 150ms, transform 100ms',
   padding: 0,
@@ -219,9 +219,9 @@ const baseButtonStyle: React.CSSProperties = {
 };
 
 const hoverButtonStyle: React.CSSProperties = {
-  backgroundColor: 'rgba(255,255,255,0.14)',
-  color: '#ddd',
-  borderColor: 'rgba(255,255,255,0.22)',
+  backgroundColor: '#F4F5F7',
+  color: '#1A1D26',
+  borderColor: '#D8DBE4',
 };
 
 const copiedToastStyle: React.CSSProperties = {
@@ -231,13 +231,14 @@ const copiedToastStyle: React.CSSProperties = {
   transform: 'translateX(-50%)',
   marginBottom: 6,
   padding: '3px 8px',
-  borderRadius: 4,
-  backgroundColor: 'rgba(74, 138, 154, 0.9)',
-  color: '#fff',
+  borderRadius: 6,
+  backgroundColor: '#2B7A83',
+  color: '#FFFFFF',
   fontSize: 10,
   fontFamily: 'monospace',
   letterSpacing: '0.04em',
   whiteSpace: 'nowrap',
   pointerEvents: 'none',
+  boxShadow: '0 2px 8px rgba(0,0,0,0.12)',
   animation: 'tribe-copied-fade 1.5s ease-in-out forwards',
 };

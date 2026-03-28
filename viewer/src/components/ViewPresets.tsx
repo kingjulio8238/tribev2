@@ -99,7 +99,7 @@ export function CameraAnimator() {
 /*  HTML overlay: must live OUTSIDE <Canvas>                          */
 /* ------------------------------------------------------------------ */
 
-const buttonSize = 28;
+const buttonSize = 30;
 
 const containerStyle: React.CSSProperties = {
   position: 'absolute',
@@ -109,10 +109,10 @@ const containerStyle: React.CSSProperties = {
   flexDirection: 'column',
   gap: 4,
   padding: 4,
-  borderRadius: 6,
-  backgroundColor: 'rgba(15, 15, 25, 0.75)',
-  backdropFilter: 'blur(6px)',
-  border: '1px solid rgba(255,255,255,0.06)',
+  borderRadius: 8,
+  backgroundColor: '#FFFFFF',
+  border: '1px solid #E8EAF0',
+  boxShadow: '0 2px 8px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04)',
   zIndex: 10,
   pointerEvents: 'auto',
 };
@@ -123,12 +123,12 @@ const baseButtonStyle: React.CSSProperties = {
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
-  borderRadius: 4,
-  border: '1px solid rgba(255,255,255,0.10)',
-  backgroundColor: 'rgba(255,255,255,0.05)',
-  color: '#aaa',
+  borderRadius: 5,
+  border: '1px solid #E8EAF0',
+  backgroundColor: 'transparent',
+  color: '#5A5F70',
   fontSize: 11,
-  fontFamily: 'monospace',
+  fontFamily: "'JetBrains Mono', monospace",
   fontWeight: 600,
   cursor: 'pointer',
   transition: 'background-color 150ms, color 150ms, border-color 150ms',
@@ -137,9 +137,9 @@ const baseButtonStyle: React.CSSProperties = {
 };
 
 const hoverButtonStyle: React.CSSProperties = {
-  backgroundColor: 'rgba(255,255,255,0.14)',
-  color: '#ddd',
-  borderColor: 'rgba(255,255,255,0.22)',
+  backgroundColor: '#F4F5F7',
+  color: '#1A1D26',
+  borderColor: '#D8DBE4',
 };
 
 export function ViewPresetButtons() {

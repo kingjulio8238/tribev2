@@ -68,7 +68,7 @@ export function Waveform({ currentTime, duration, onClick }: WaveformProps) {
     ctx.scale(dpr, dpr);
 
     // Clear
-    ctx.fillStyle = '#0a0a12';
+    ctx.fillStyle = '#F0F1F4';
     ctx.fillRect(0, 0, width, height);
 
     // Generate bars if needed
@@ -90,9 +90,9 @@ export function Waveform({ currentTime, duration, onClick }: WaveformProps) {
 
       // Bars before playhead are brighter
       if (x < playheadX) {
-        ctx.fillStyle = '#4a8a9a';
+        ctx.fillStyle = '#2B7A83';
       } else {
-        ctx.fillStyle = '#1e3a42';
+        ctx.fillStyle = '#CDD1DB';
       }
 
       const gap = Math.max(0.5, barWidth * 0.2);
@@ -101,7 +101,7 @@ export function Waveform({ currentTime, duration, onClick }: WaveformProps) {
 
     // Draw playhead
     if (dur > 0) {
-      ctx.fillStyle = '#f06a28';
+      ctx.fillStyle = '#E8622C';
       ctx.fillRect(playheadX - 1, 0, 2, height);
 
       // Small triangle at top
@@ -110,22 +110,22 @@ export function Waveform({ currentTime, duration, onClick }: WaveformProps) {
       ctx.lineTo(playheadX + 4, 0);
       ctx.lineTo(playheadX, 6);
       ctx.closePath();
-      ctx.fillStyle = '#f06a28';
+      ctx.fillStyle = '#E8622C';
       ctx.fill();
     }
 
     // Gradient fade at left edge
     const fadeWidth = 24;
     const leftGrad = ctx.createLinearGradient(0, 0, fadeWidth, 0);
-    leftGrad.addColorStop(0, '#0a0a12');
-    leftGrad.addColorStop(1, 'rgba(10, 10, 18, 0)');
+    leftGrad.addColorStop(0, '#F0F1F4');
+    leftGrad.addColorStop(1, 'rgba(240, 241, 244, 0)');
     ctx.fillStyle = leftGrad;
     ctx.fillRect(0, 0, fadeWidth, height);
 
     // Gradient fade at right edge
     const rightGrad = ctx.createLinearGradient(width - fadeWidth, 0, width, 0);
-    rightGrad.addColorStop(0, 'rgba(10, 10, 18, 0)');
-    rightGrad.addColorStop(1, '#0a0a12');
+    rightGrad.addColorStop(0, 'rgba(240, 241, 244, 0)');
+    rightGrad.addColorStop(1, '#F0F1F4');
     ctx.fillStyle = rightGrad;
     ctx.fillRect(width - fadeWidth, 0, fadeWidth, height);
 
@@ -133,7 +133,7 @@ export function Waveform({ currentTime, duration, onClick }: WaveformProps) {
     ctx.font = '9px monospace';
     ctx.textBaseline = 'bottom';
     // Start label
-    ctx.fillStyle = '#444';
+    ctx.fillStyle = '#8B90A0';
     ctx.textAlign = 'left';
     ctx.fillText(formatTimeLabel(0), 4, height - 3);
     // End label
@@ -143,7 +143,7 @@ export function Waveform({ currentTime, duration, onClick }: WaveformProps) {
     }
 
     // Subtle border at bottom
-    ctx.fillStyle = '#1a1a2e';
+    ctx.fillStyle = '#E8EAF0';
     ctx.fillRect(0, height - 1, width, 1);
   }, []);
 
@@ -178,7 +178,7 @@ export function Waveform({ currentTime, duration, onClick }: WaveformProps) {
         width: '100%',
         height: '100%',
         position: 'relative',
-        backgroundColor: '#0a0a12',
+        backgroundColor: '#F0F1F4',
       }}
     >
       <canvas

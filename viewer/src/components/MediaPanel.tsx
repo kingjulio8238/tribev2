@@ -68,8 +68,8 @@ export function MediaPanel({
         height: '100%',
         display: 'flex',
         flexDirection: 'column',
-        backgroundColor: '#0d0d14',
-        color: '#888',
+        backgroundColor: '#FFFFFF',
+        color: '#4A4E5A',
         overflow: 'hidden',
       }}
     >
@@ -80,8 +80,8 @@ export function MediaPanel({
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
-          borderBottom: '1px solid #1a1a2e',
-          padding: 12,
+          borderBottom: '1px solid #EEF0F4',
+          padding: 16,
           overflow: 'hidden',
           minHeight: 0,
         }}
@@ -95,9 +95,9 @@ export function MediaPanel({
             style={{
               maxWidth: '100%',
               maxHeight: '100%',
-              borderRadius: 6,
-              border: '1px solid #1a1a2e',
-              backgroundColor: '#000',
+              borderRadius: 8,
+              border: '1px solid #E8EAF0',
+              backgroundColor: '#0C0C0C',
               objectFit: 'contain',
             }}
             playsInline
@@ -112,7 +112,7 @@ export function MediaPanel({
       <div
         style={{
           flex: '0 0 80px',
-          borderBottom: '1px solid #1a1a2e',
+          borderBottom: '1px solid #EEF0F4',
           overflow: 'hidden',
         }}
       >
@@ -147,9 +147,9 @@ function VideoPlaceholder() {
         flexDirection: 'column',
         alignItems: 'center',
         justifyContent: 'center',
-        backgroundColor: '#08080d',
-        borderRadius: 6,
-        border: '1px solid #1a1a2e',
+        backgroundColor: '#EEF0F4',
+        borderRadius: 8,
+        border: '1px dashed #D8DBE4',
         gap: 12,
       }}
     >
@@ -159,7 +159,7 @@ function VideoPlaceholder() {
         height="40"
         viewBox="0 0 24 24"
         fill="none"
-        stroke="#2a2a3e"
+        stroke="#C0C4D0"
         strokeWidth="1.5"
         strokeLinecap="round"
         strokeLinejoin="round"
@@ -175,7 +175,7 @@ function VideoPlaceholder() {
       </svg>
       <div
         style={{
-          color: '#2a2a3e',
+          color: '#8B90A0',
           fontSize: 13,
           fontFamily: "'Inter', sans-serif",
           letterSpacing: '0.02em',
@@ -185,7 +185,7 @@ function VideoPlaceholder() {
       </div>
       <div
         style={{
-          color: '#1e1e30',
+          color: '#B0B5C3',
           fontSize: 11,
           fontFamily: 'monospace',
         }}

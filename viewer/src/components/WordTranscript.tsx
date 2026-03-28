@@ -80,7 +80,7 @@ export function WordTranscript({ currentTime, segments }: WordTranscriptProps) {
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
-          color: '#3a3a4e',
+          color: '#8B90A0',
           fontSize: 13,
           fontFamily: "'Inter', sans-serif",
           letterSpacing: '0.02em',
@@ -100,7 +100,7 @@ export function WordTranscript({ currentTime, segments }: WordTranscriptProps) {
         height: '100%',
         overflowY: 'auto',
         overflowX: 'hidden',
-        padding: '12px 14px',
+        padding: '14px 18px',
         boxSizing: 'border-box',
       }}
     >
@@ -108,7 +108,7 @@ export function WordTranscript({ currentTime, segments }: WordTranscriptProps) {
         style={{
           display: 'flex',
           flexWrap: 'wrap',
-          gap: '5px 4px',
+          gap: '6px 5px',
           alignContent: 'flex-start',
         }}
       >
@@ -130,17 +130,17 @@ export function WordTranscript({ currentTime, segments }: WordTranscriptProps) {
                 fontFamily: "'Inter', sans-serif",
                 transition: 'background 0.15s, color 0.15s',
                 backgroundColor: isActive
-                  ? 'rgba(240, 106, 40, 0.18)'
+                  ? 'rgba(232, 98, 44, 0.08)'
                   : isPast
-                    ? 'rgba(74, 138, 154, 0.06)'
+                    ? 'rgba(43, 122, 131, 0.04)'
                     : 'transparent',
                 color: isActive
-                  ? '#f09050'
+                  ? '#D05A20'
                   : isPast
-                    ? '#6a8a8a'
-                    : '#4a4a5e',
+                    ? '#4A4E5A'
+                    : '#B0B5C3',
                 border: isActive
-                  ? '1px solid rgba(240, 106, 40, 0.3)'
+                  ? '1px solid rgba(232, 98, 44, 0.20)'
                   : '1px solid transparent',
               }}
             >
@@ -148,7 +148,7 @@ export function WordTranscript({ currentTime, segments }: WordTranscriptProps) {
                 style={{
                   fontFamily: 'monospace',
                   fontSize: 9,
-                  color: isActive ? '#c06030' : '#333345',
+                  color: isActive ? '#C4501A' : '#B0B5C3',
                   marginRight: 2,
                   flexShrink: 0,
                 }}

@@ -32,9 +32,10 @@ export function ColorBar({ vmin = 0.5 }: ColorBarProps) {
         top: '50%',
         transform: 'translateY(-50%)',
         pointerEvents: 'none',
-        background: 'rgba(10, 10, 18, 0.75)',
-        borderRadius: 6,
-        border: '1px solid rgba(100, 100, 140, 0.2)',
+        background: '#FFFFFF',
+        borderRadius: 8,
+        border: '1px solid #E8EAF0',
+        boxShadow: '0 2px 8px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04)',
         padding: '10px 10px 10px 10px',
         display: 'flex',
         flexDirection: 'column',
@@ -47,7 +48,7 @@ export function ColorBar({ vmin = 0.5 }: ColorBarProps) {
         style={{
           fontSize: 9,
           fontFamily: 'monospace',
-          color: '#8888aa',
+          color: '#5A5F70',
           letterSpacing: '0.12em',
           fontVariant: 'all-small-caps',
           fontWeight: 600,
@@ -82,7 +83,7 @@ export function ColorBar({ vmin = 0.5 }: ColorBarProps) {
             style={{
               fontSize: 8,
               fontFamily: 'monospace',
-              color: '#7a7a9a',
+              color: '#8B90A0',
               lineHeight: 1,
             }}
           >
@@ -92,7 +93,7 @@ export function ColorBar({ vmin = 0.5 }: ColorBarProps) {
             style={{
               fontSize: 8,
               fontFamily: 'monospace',
-              color: '#7a7a9a',
+              color: '#8B90A0',
               lineHeight: 1,
             }}
           >
@@ -108,7 +109,7 @@ export function ColorBar({ vmin = 0.5 }: ColorBarProps) {
             height: barHeight,
             borderRadius: 2,
             overflow: 'hidden',
-            border: '1px solid rgba(100, 100, 140, 0.25)',
+            border: '1px solid #D8DBE4',
           }}
         >
           {/* Full gradient */}
@@ -127,7 +128,7 @@ export function ColorBar({ vmin = 0.5 }: ColorBarProps) {
               top: vminFromTop,
               width: '100%',
               height: barHeight - vminFromTop,
-              background: 'rgba(0, 0, 0, 0.55)',
+              background: 'rgba(255, 255, 255, 0.55)',
             }}
           />
           {/* vmin tick mark */}
@@ -138,7 +139,7 @@ export function ColorBar({ vmin = 0.5 }: ColorBarProps) {
               top: vminFromTop,
               width: '100%',
               height: 1,
-              background: '#8888aa',
+              background: '#8B90A0',
             }}
           />
         </div>
@@ -159,7 +160,7 @@ export function ColorBar({ vmin = 0.5 }: ColorBarProps) {
               left: 0,
               width: 4,
               height: 1,
-              background: '#8888aa',
+              background: '#8B90A0',
             }}
           />
           {/* Threshold label */}
@@ -170,7 +171,7 @@ export function ColorBar({ vmin = 0.5 }: ColorBarProps) {
               left: 6,
               fontSize: 7,
               fontFamily: 'monospace',
-              color: '#7a7a9a',
+              color: '#8B90A0',
               whiteSpace: 'nowrap',
               lineHeight: 1,
             }}

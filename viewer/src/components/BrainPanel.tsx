@@ -85,7 +85,7 @@ export function BrainPanel({
         width: '100%',
         height: '100%',
         position: 'relative',
-        backgroundColor: '#0a0a0f',
+        backgroundColor: 'transparent',
       }}
     >
       {loading && (
@@ -100,7 +100,7 @@ export function BrainPanel({
             alignItems: 'center',
             justifyContent: 'center',
             zIndex: 10,
-            color: '#8888aa',
+            color: '#8B90A0',
             fontSize: '14px',
             fontFamily: 'monospace',
             letterSpacing: '0.05em',
@@ -111,12 +111,12 @@ export function BrainPanel({
       )}
       <Canvas
         camera={{ position: initialCameraPosition ?? [0, 0, 200], fov: 50 }}
-        gl={{ preserveDrawingBuffer: true }}
-        style={{ width: '100%', height: '100%' }}
+        gl={{ preserveDrawingBuffer: true, alpha: true }}
+        style={{ width: '100%', height: '100%', background: 'radial-gradient(ellipse at center, #F0F1F4 0%, #E4E6EC 100%)' }}
       >
-        <ambientLight intensity={0.4} />
-        <directionalLight position={[100, 100, 100]} intensity={0.8} />
-        <directionalLight position={[-60, -60, 40]} intensity={0.3} />
+        <ambientLight intensity={0.6} />
+        <directionalLight position={[100, 100, 100]} intensity={0.7} />
+        <directionalLight position={[-60, -60, 40]} intensity={0.25} />
         <RaycastHandler
           roiData={roiData}
           predictions={predictions}

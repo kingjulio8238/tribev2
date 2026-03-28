@@ -14,11 +14,11 @@ const tooltipStyle: React.CSSProperties = {
   pointerEvents: 'none',
   zIndex: 20,
   padding: '6px 10px',
-  borderRadius: 6,
-  backgroundColor: 'rgba(10, 10, 20, 0.88)',
-  border: '1px solid rgba(255, 255, 255, 0.10)',
-  backdropFilter: 'blur(8px)',
-  color: '#ccc',
+  borderRadius: 8,
+  backgroundColor: '#FFFFFF',
+  border: '1px solid #D8DBE4',
+  boxShadow: '0 4px 16px rgba(0,0,0,0.08), 0 2px 4px rgba(0,0,0,0.04)',
+  color: '#1A1D26',
   fontSize: 11,
   lineHeight: 1.5,
   fontFamily: 'system-ui, -apple-system, sans-serif',
@@ -27,25 +27,26 @@ const tooltipStyle: React.CSSProperties = {
 };
 
 const labelStyle: React.CSSProperties = {
-  color: '#999',
+  color: '#8B90A0',
   fontSize: 10,
   marginRight: 6,
 };
 
 const valueStyle: React.CSSProperties = {
-  fontFamily: 'monospace',
-  color: '#e8c46a',
+  fontFamily: "'JetBrains Mono', monospace",
+  color: '#C67B2E',
   fontSize: 11,
+  fontWeight: 500,
 };
 
 const regionStyle: React.CSSProperties = {
-  color: '#ddd',
-  fontWeight: 500,
-  fontSize: 11,
+  color: '#1A1D26',
+  fontWeight: 600,
+  fontSize: 12,
 };
 
 const hemiStyle: React.CSSProperties = {
-  color: '#8888bb',
+  color: '#8B90A0',
   fontSize: 10,
   marginLeft: 6,
 };

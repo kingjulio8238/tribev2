@@ -147,11 +147,10 @@ export function App() {
       style={{
         width: '100vw',
         height: '100vh',
-        display: 'flex',
-        flexDirection: 'column',
-        backgroundColor: '#0a0a0f',
+        backgroundColor: '#F4F5F7',
         overflow: 'hidden',
         position: 'relative',
+        padding: 12,
       }}
     >
       {/* Loading overlay */}
@@ -167,7 +166,7 @@ export function App() {
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            backgroundColor: 'rgba(10, 10, 15, 0.7)',
+            backgroundColor: 'rgba(244, 245, 247, 0.75)',
             zIndex: 100,
             pointerEvents: 'none',
           }}
@@ -175,14 +174,15 @@ export function App() {
           <div
             className="tribe-loading-pill"
             style={{
-              color: '#8888aa',
-              fontSize: 14,
-              fontFamily: 'monospace',
+              color: '#8B90A0',
+              fontSize: 13,
+              fontFamily: "'JetBrains Mono', monospace",
               letterSpacing: '0.05em',
               padding: '12px 24px',
-              backgroundColor: 'rgba(13, 13, 20, 0.9)',
-              borderRadius: 8,
-              border: '1px solid #1a1a2e',
+              backgroundColor: '#FFFFFF',
+              borderRadius: 10,
+              border: '1px solid #E8EAF0',
+              boxShadow: '0 4px 16px rgba(0,0,0,0.08)',
             }}
           >
             Loading data...
@@ -202,20 +202,21 @@ export function App() {
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            backgroundColor: 'rgba(10, 10, 15, 0.85)',
+            backgroundColor: 'rgba(244, 245, 247, 0.90)',
             zIndex: 101,
           }}
         >
           <div
             style={{
-              color: '#e06060',
+              color: '#C53030',
               fontSize: 13,
-              fontFamily: 'monospace',
+              fontFamily: "'JetBrains Mono', monospace",
               letterSpacing: '0.03em',
               padding: '16px 28px',
-              backgroundColor: 'rgba(13, 13, 20, 0.95)',
-              borderRadius: 8,
-              border: '1px solid #3a1a1a',
+              backgroundColor: '#FFFFFF',
+              borderRadius: 10,
+              border: '1px solid #F0C4C4',
+              boxShadow: '0 4px 16px rgba(0,0,0,0.08)',
               maxWidth: 420,
               textAlign: 'center',
               lineHeight: 1.5,
@@ -226,141 +227,162 @@ export function App() {
         </div>
       )}
 
-      {/* Header bar */}
+      {/* Inner flex layout: header, panels, transport as card elements */}
       <div
         style={{
-          height: 32,
-          flexShrink: 0,
+          width: '100%',
+          height: '100%',
           display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-          padding: '0 14px',
-          backgroundColor: '#0d0d14',
-          borderBottom: '1px solid #1a1a2e',
-          transition: 'border-color 150ms',
+          flexDirection: 'column',
+          gap: 10,
         }}
       >
-        <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-          {/* Brain icon */}
-          <svg
-            width="14"
-            height="14"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="#4a8a9a"
-            strokeWidth="1.5"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          >
-            <path d="M12 2C9 2 6.5 4 6.5 7c0 1.5.5 2.8 1.3 3.8C6.5 12 5.5 13.5 5.5 15.5 5.5 18 7 20 9.5 20.5c.3.5 1 1.5 2.5 1.5s2.2-1 2.5-1.5C17 20 18.5 18 18.5 15.5c0-2-1-3.5-2.3-4.7.8-1 1.3-2.3 1.3-3.8C17.5 4 15 2 12 2z" />
-            <path d="M12 2v20" />
-            <path d="M8 8c1.5 0 2.5 1 4 1s2.5-1 4-1" />
-            <path d="M7.5 14c1.5.5 3 1 4.5 1s3-.5 4.5-1" />
-          </svg>
-          <span
+        {/* Header bar */}
+        <div
+          style={{
+            height: 44,
+            flexShrink: 0,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            padding: '0 20px',
+            backgroundColor: '#FFFFFF',
+            border: '1px solid #E8EAF0',
+            borderRadius: 12,
+            boxShadow: '0 1px 2px rgba(0,0,0,0.04)',
+          }}
+        >
+          <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+            {/* Brain icon */}
+            <svg
+              width="14"
+              height="14"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="#2B7A83"
+              strokeWidth="1.5"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
+              <path d="M12 2C9 2 6.5 4 6.5 7c0 1.5.5 2.8 1.3 3.8C6.5 12 5.5 13.5 5.5 15.5 5.5 18 7 20 9.5 20.5c.3.5 1 1.5 2.5 1.5s2.2-1 2.5-1.5C17 20 18.5 18 18.5 15.5c0-2-1-3.5-2.3-4.7.8-1 1.3-2.3 1.3-3.8C17.5 4 15 2 12 2z" />
+              <path d="M12 2v20" />
+              <path d="M8 8c1.5 0 2.5 1 4 1s2.5-1 4-1" />
+              <path d="M7.5 14c1.5.5 3 1 4.5 1s3-.5 4.5-1" />
+            </svg>
+            <span
+              style={{
+                fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
+                fontSize: 12,
+                fontWeight: 600,
+                color: '#4A4E5A',
+                letterSpacing: '0.04em',
+                textTransform: 'uppercase',
+                userSelect: 'none',
+              }}
+            >
+              TRIBE v2 Brain Viewer
+            </span>
+          </div>
+          <div
             style={{
-              fontFamily: 'monospace',
+              fontFamily: "'JetBrains Mono', monospace",
               fontSize: 11,
-              color: '#555',
-              letterSpacing: '0.08em',
-              userSelect: 'none',
+              color: '#8B90A0',
+              letterSpacing: '0.05em',
             }}
           >
-            TRIBE v2 Brain Viewer
-          </span>
+            TR {playback.timestepIndex + 1}
+            <span style={{ color: '#C0C4D0', margin: '0 4px' }}>/</span>
+            {playback.nTimesteps}
+          </div>
         </div>
-        <div
-          style={{
-            fontFamily: 'monospace',
-            fontSize: 10,
-            color: '#444',
-            letterSpacing: '0.05em',
-          }}
-        >
-          TR {playback.timestepIndex + 1}
-          <span style={{ color: '#333', margin: '0 4px' }}>/</span>
-          {playback.nTimesteps}
-        </div>
-      </div>
 
-      {/* Main panels */}
-      <div
-        style={{
-          flex: 1,
-          display: 'flex',
-          flexDirection: isNarrow ? 'column' : 'row',
-          overflow: 'hidden',
-        }}
-      >
-        {/* Left / Top panel - Media */}
+        {/* Main panels */}
         <div
-          className="tribe-panel-border"
           style={{
-            width: isNarrow ? '100%' : '45%',
-            height: isNarrow ? '50%' : '100%',
-            borderRight: isNarrow ? 'none' : '1px solid #1a1a2e',
-            borderBottom: isNarrow ? '1px solid #1a1a2e' : 'none',
+            flex: 1,
+            display: 'flex',
+            flexDirection: isNarrow ? 'column' : 'row',
+            gap: 10,
             overflow: 'hidden',
-            transition: 'border-color 150ms',
           }}
         >
-          <MediaPanel
-            currentTime={playback.currentTime}
-            duration={playback.duration}
-            isPlaying={playback.isPlaying}
-            segments={segments}
-            videoRef={videoRef}
-            onTimeUpdate={playback.seek}
-            basePath={currentDemo.basePath}
-          />
+          {/* Left / Top panel - Media */}
+          <div
+            style={{
+              flex: isNarrow ? undefined : 4,
+              width: isNarrow ? '100%' : undefined,
+              height: isNarrow ? '50%' : '100%',
+              backgroundColor: '#FFFFFF',
+              border: '1px solid #E8EAF0',
+              borderRadius: 12,
+              boxShadow: '0 1px 2px rgba(0,0,0,0.04)',
+              overflow: 'hidden',
+            }}
+          >
+            <MediaPanel
+              currentTime={playback.currentTime}
+              duration={playback.duration}
+              isPlaying={playback.isPlaying}
+              segments={segments}
+              videoRef={videoRef}
+              onTimeUpdate={playback.seek}
+              basePath={currentDemo.basePath}
+            />
+          </div>
+
+          {/* Right / Bottom panel - Brain */}
+          <div
+            style={{
+              flex: isNarrow ? undefined : 6,
+              width: isNarrow ? '100%' : undefined,
+              height: isNarrow ? '50%' : '100%',
+              backgroundColor: '#FFFFFF',
+              border: '1px solid #E8EAF0',
+              borderRadius: 12,
+              boxShadow: '0 1px 2px rgba(0,0,0,0.04)',
+              overflow: 'hidden',
+              position: 'relative',
+            }}
+          >
+            <DemoSelector
+              demos={DEMOS}
+              current={currentDemo}
+              onChange={handleDemoChange}
+            />
+            <BrainPanel
+              timestepIndex={playback.timestepIndex}
+              currentTime={playback.currentTime}
+              trSeconds={trSeconds}
+              meshData={meshData}
+              predictions={predictions}
+              metadata={metadata}
+              roiData={roiData}
+              loading={loading}
+              demoId={currentDemo.id}
+              initialCameraPosition={
+                shareParams.current.initialCameraPosition ?? undefined
+              }
+            />
+          </div>
         </div>
 
-        {/* Right / Bottom panel - Brain */}
-        <div
-          style={{
-            width: isNarrow ? '100%' : '55%',
-            height: isNarrow ? '50%' : '100%',
-            overflow: 'hidden',
-            position: 'relative',
-          }}
-        >
-          <DemoSelector
-            demos={DEMOS}
-            current={currentDemo}
-            onChange={handleDemoChange}
-          />
-          <BrainPanel
-            timestepIndex={playback.timestepIndex}
-            currentTime={playback.currentTime}
-            trSeconds={trSeconds}
-            meshData={meshData}
-            predictions={predictions}
-            metadata={metadata}
-            roiData={roiData}
-            loading={loading}
-            demoId={currentDemo.id}
-            initialCameraPosition={
-              shareParams.current.initialCameraPosition ?? undefined
-            }
-          />
-        </div>
+        {/* Bottom transport bar */}
+        <TransportBar
+          currentTime={playback.currentTime}
+          duration={playback.duration}
+          isPlaying={playback.isPlaying}
+          timestepIndex={playback.timestepIndex}
+          nTimesteps={playback.nTimesteps}
+          trSeconds={trSeconds}
+          playbackSpeed={playback.playbackSpeed}
+          onToggle={playback.toggle}
+          onSeek={playback.seek}
+          onStepForward={playback.stepForward}
+          onStepBackward={playback.stepBackward}
+          onSetPlaybackSpeed={playback.setPlaybackSpeed}
+        />
       </div>
-
-      {/* Bottom transport bar */}
-      <TransportBar
-        currentTime={playback.currentTime}
-        duration={playback.duration}
-        isPlaying={playback.isPlaying}
-        timestepIndex={playback.timestepIndex}
-        nTimesteps={playback.nTimesteps}
-        trSeconds={trSeconds}
-        playbackSpeed={playback.playbackSpeed}
-        onToggle={playback.toggle}
-        onSeek={playback.seek}
-        onStepForward={playback.stepForward}
-        onStepBackward={playback.stepBackward}
-        onSetPlaybackSpeed={playback.setPlaybackSpeed}
-      />
     </div>
   );
 }
