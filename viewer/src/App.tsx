@@ -1,4 +1,4 @@
-import { useRef, useEffect, useState, useCallback } from 'react';
+import { useRef, useEffect, useState } from 'react';
 import { MediaPanel } from './components/MediaPanel';
 import { BrainPanel } from './components/BrainPanel';
 import { TransportBar } from './components/TransportBar';
@@ -69,7 +69,7 @@ export function App() {
   // Parse URL share params once on mount
   const shareParams = useRef(parseShareParams());
 
-  const [currentDemo, setCurrentDemo] = useState<DemoConfig>(
+  const [currentDemo] = useState<DemoConfig>(
     shareParams.current.demo,
   );
   const { meshData, predictions, metadata, segments, roiData, loading, error } =
