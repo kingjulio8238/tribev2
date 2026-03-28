@@ -1,6 +1,6 @@
 # Pipeline Optimizations
 
-## Baseline (T4 GPU, 52s Sintel trailer)
+## Baseline — v0 (T4 GPU, 52s Sintel trailer)
 
 | Phase | Time | % | GPU Memory |
 |---|---|---|---|
@@ -15,93 +15,79 @@
 
 Full baseline data: `benchmark_results.json`
 
-## Implemented Optimizations
+---
 
-All optimizations are in `tribev2/optimize.py` and applied via:
+## v1 — FP16 + torch.compile + no_grad + mesh cache
 
-```python
-from tribev2.optimize import apply_optimizations
-apply_optimizations()
-```
+**Result: 2,433s → 768s (3.17x faster)**
 
-### 1. FP16 inference for V-JEPA2
-
-Converts V-JEPA2 ViT-G model to float16 before encoding. Halves memory bandwidth and activates T4's FP16 tensor cores.
-
-- **Expected speedup:** ~2x on video encoding
-- **Memory savings:** ~50% (enables larger batch sizes)
-- **Risk:** Low — inference-only, no training precision concerns
-
-### 2. torch.compile with reduce-overhead mode
-
-Applies `torch.compile(model, backend="inductor", mode="reduce-overhead")` to V-JEPA2. Fuses kernels and optionally uses CUDA graphs for reduced launch overhead.
-
-- **Expected speedup:** ~20-30% beyond FP16
-- **Inspired by:** le-wm harness achieving 3.6x speedup with same technique
-- **Note:** First call is slow (compilation warmup), subsequent calls are faster
-
-### 3. requires_grad_(False) on all extractors
-
-Disables autograd tracking for all model parameters during feature extraction. Eliminates gradient computation overhead.
-
-- **Expected speedup:** ~5-10%
-- **Risk:** None — inference only
-
-### 4. TF32 matmul precision
-
-Sets `torch.set_float32_matmul_precision("high")` for faster matrix multiplications on Ampere+ GPUs (A100/H100). No effect on T4.
-
-- **Expected speedup:** ~10-15% on A100/H100
-- **Risk:** None — uses TF32 which has sufficient precision for inference
-
-### 5. FP16 for LLaMA 3.2-3B text extraction
-
-Converts LLaMA text encoder to float16, same approach as V-JEPA2.
-
-- **Expected speedup:** ~40-50% on text phase (116s → ~60s)
-- **Risk:** Low
-
-### 6. fsaverage5 pre-fetch
-
-`prefetch_fsaverage5()` downloads mesh data during install phase so the export step is pure file I/O.
-
-- **Expected savings:** ~195s (200s → ~5s)
-- **Risk:** None
-
-## Configuration
-
-```python
-apply_optimizations(
-    fp16=True,              # FP16 for V-JEPA2 + LLaMA
-    compile_model=True,     # torch.compile with inductor
-    compile_mode="reduce-overhead",  # CUDA graphs
-    matmul_precision="high",  # TF32 on Ampere+
-    batch_timesteps=1,      # Future: batch multiple timesteps
-)
-```
-
-## Projected Impact
-
-| Phase | Baseline | Optimized | Savings |
+| Phase | v0 | v1 | Speedup |
 |---|---|---|---|
-| V-JEPA2 video | 1,773s | ~600-900s | ~50-65% |
-| Mesh export | 200s | ~5s | ~97% |
-| LLaMA text | 116s | ~60s | ~48% |
-| **Total** | **2,433s** | **~900-1,200s** | **~50-63%** |
+| V-JEPA2 video | 1,773s | 703s | 2.52x |
+| LLaMA text | 116s | 33s | 3.50x |
+| Wav2Vec audio | 42s | 18s | 2.33x |
+| Mesh export | 200s | 0.45s | 444x |
+| GPU memory (peak) | 13.2 GB | 6.6 GB | 50% less |
+
+### Optimizations applied
+
+1. **FP16 inference for V-JEPA2** — `model.half()` before encoding. Halves memory bandwidth, activates T4 FP16 tensor cores.
+2. **torch.compile (reduce-overhead)** — `torch.compile(model, backend="inductor", mode="reduce-overhead")` for kernel fusion and CUDA graphs. Inspired by le-wm harness (3.6x predictor speedup).
+3. **requires_grad_(False)** — Disables autograd on all extractor models.
+4. **TF32 matmul precision** — `torch.set_float32_matmul_precision("high")` for Ampere+ GPUs.
+5. **FP16 for LLaMA text** — Same half-precision approach for text encoder.
+6. **fsaverage5 prefetch** — Downloads mesh data during install so export is pure I/O.
+
+Full data: `benchmark_results_optimized.json`
+
+---
+
+## v2 — Frame subsampling + audio FP16 + text compile
+
+**Status: Implemented, pending benchmark**
+
+### New optimizations
+
+7. **V-JEPA2 frame subsampling (64 → 32 frames)** — Reduces per-timestep compute by ~50%. V-JEPA2's processor handles variable frame counts via position embedding interpolation.
+   - Expected: 703s → ~350-450s
+   - Risk: Medium — may affect prediction quality, needs comparison
+
+8. **FP16 for Wav2Vec-BERT audio** — Same half-precision + no_grad pattern. Currently 18s.
+   - Expected: 18s → ~9s
+
+9. **torch.compile for LLaMA text** — Adds compilation on top of existing FP16. Currently 33s.
+   - Expected: 33s → ~20s
+
+### Projected v2 impact
+
+| Phase | v1 | v2 (projected) | Speedup |
+|---|---|---|---|
+| V-JEPA2 video | 703s | ~350-450s | ~1.5-2x |
+| LLaMA text | 33s | ~20s | ~1.7x |
+| Wav2Vec audio | 18s | ~9s | ~2x |
+| **Total** | **768s (12.8 min)** | **~400-500s (6.7-8.3 min)** | **~1.5-1.9x** |
+| **vs baseline** | 3.17x | **~5-6x** | |
+
+### Configuration
+
+```python
+# In the benchmark notebook optimization cell:
+ENABLE_OPTIMIZATIONS = True
+VJEPA2_NUM_FRAMES = 32  # 64 = default, 32 = subsampled
+```
+
+---
 
 ## Future Optimizations (Not Yet Implemented)
 
+### Batch timestep encoding
+Process multiple timesteps in a single forward pass. Currently V-JEPA2 processes one timestep per call. Batching 2-4 timesteps would improve GPU utilization but requires restructuring the neuralset encoding loop.
+
 ### WhisperX backend swap
-Replace WhisperX with `faster-whisper` (CTranslate2 backend) for 2-5x faster transcription. Currently 283s for 52s audio.
+Replace WhisperX with `faster-whisper` (CTranslate2 backend) for 2-5x faster transcription.
 
 ### INT8 quantization
-Post-training INT8 quantization via `bitsandbytes` or `torch.ao.quantization`. ~20% beyond FP16 but higher implementation complexity.
-
-### Temporal subsampling
-V-JEPA2 encodes 64 frames per clip at 24fps. Reducing to 12fps or 8fps would cut encoding work proportionally, but may affect prediction quality.
-
-### Batch timestep encoding
-Process multiple timesteps in a single forward pass. Currently V-JEPA2 processes one timestep (64 frames) per call. Batching 2-4 timesteps would improve GPU utilization but requires restructuring the encoding loop and more GPU memory.
+Post-training INT8 via `bitsandbytes` or `torch.ao.quantization`. ~20% beyond FP16.
 
 ### GPU selection
-A100 (40/80GB) or H100 would be significantly faster than T4 for both ViT and LLM inference, with more VRAM for larger batches.
+A100 (40/80GB) or H100 would be significantly faster than T4, with more VRAM for larger batches.
