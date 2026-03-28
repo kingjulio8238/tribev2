@@ -37,20 +37,31 @@ Per-version timing results for the TRIBE v2 pipeline. All benchmarks use the Sin
 ## v1 — FP16 + torch.compile + no_grad + mesh cache
 
 **Date:** 2026-03-28
-**GPU:** Tesla T4
+**GPU:** Tesla T4 (15,637 MB VRAM)
+**CUDA:** 12.4 | **PyTorch:** 2.6.0+cu124
 **Optimizations:** FP16 inference, torch.compile (reduce-overhead), requires_grad_(False), TF32 matmul, fsaverage5 prefetch
 
 | Phase | Time | % | vs v0 |
 |---|---|---|---|
-| Feature extraction: video (V-JEPA2) | TBD | | |
-| Feature extraction: text (LLaMA 3.2-3B) | TBD | | |
-| Export mesh | TBD | | |
-| **Total** | **TBD** | | |
+| Download video | 0.27s | 0.0% | — |
+| Model load (checkpoint + init) | 2.76s | 0.4% | 4.83x |
+| Build events (audio + WhisperX) | 3.19s | 0.4% | cached |
+| Feature extraction: text (LLaMA 3.2-3B) | 33.14s | 4.3% | **3.50x** |
+| Feature extraction: audio (Wav2Vec-BERT) | 17.87s | 2.3% | 2.34x |
+| Feature extraction: video (V-JEPA2) | 702.91s | 91.5% | **2.52x** |
+| Feature extraction: subject_id | 0.01s | 0.0% | — |
+| Build dataloader | 0.01s | 0.0% | — |
+| Model inference (forward pass) | 3.76s | 0.5% | — |
+| Normalization | 0.02s | 0.0% | — |
+| Export mesh | 0.45s | 0.1% | **444x** |
+| Export predictions | 0.01s | 0.0% | — |
+| Export stimulus metadata | 2.95s | 0.4% | — |
+| Zip output | 0.53s | 0.1% | — |
+| **Total** | **767.87s (12.8 min)** | | **3.17x** |
 
-**Expected improvements:**
-- V-JEPA2: ~50-65% faster (1,773s → ~600-900s)
-- Mesh export: ~97% faster (200s → ~5s) via prefetch
-- LLaMA text: ~48% faster (116s → ~60s) via FP16
-- Total: ~50-63% faster (2,433s → ~900-1,200s)
-
-*Results pending — run `colab_benchmark_pipeline.ipynb` with `ENABLE_OPTIMIZATIONS = True`*
+**Key results:**
+- V-JEPA2: 1,773s → 703s (**2.52x faster**, 6.8s/frame vs 17.0s/frame)
+- LLaMA text: 116s → 33s (**3.50x faster**)
+- Mesh export: 200s → 0.45s (**444x faster** via prefetch)
+- Peak GPU memory: 6.6 GB reserved (vs 13.2 GB baseline) — **50% less VRAM**
+- Total pipeline: 40.6 min → 12.8 min (**3.17x faster**)
