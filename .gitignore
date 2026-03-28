@@ -33,3 +33,10 @@ wandb/
 
 # OS
 .DS_Store
+
+# Viewer
+viewer/node_modules/
+viewer/dist/
+viewer/public/data/mesh/
+viewer/public/data/predictions/
+viewer/public/data/stimulus/
