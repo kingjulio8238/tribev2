@@ -1,0 +1,102 @@
+{
+  "gpu_name": "NVIDIA A100-SXM4-40GB",
+  "gpu_vram_mb": 42405.855232,
+  "cuda_version": "12.4",
+  "torch_version": "2.6.0+cu124",
+  "video_duration_s": 52.21,
+  "video_file": "sintel_trailer.mp4",
+  "phases": [
+    {
+      "name": "2. Download video",
+      "elapsed_s": 0.254,
+      "gpu_mem_allocated_mb": 0.0,
+      "gpu_mem_reserved_mb": 0.0,
+      "notes": ""
+    },
+    {
+      "name": "3. Model load (checkpoint + init)",
+      "elapsed_s": 5.859,
+      "gpu_mem_allocated_mb": 710.1,
+      "gpu_mem_reserved_mb": 792.7,
+      "notes": "Downloads ~709MB checkpoint on first run, inits config"
+    },
+    {
+      "name": "4. Build events (audio + WhisperX)",
+      "elapsed_s": 27.646,
+      "gpu_mem_allocated_mb": 710.1,
+      "gpu_mem_reserved_mb": 792.7,
+      "notes": "ExtractAudioFromVideo, ChunkEvents, WhisperX, AddText/Context"
+    },
+    {
+      "name": "5. Feature extraction: text+audio (parallel)",
+      "elapsed_s": 30.124,
+      "gpu_mem_allocated_mb": 8765.0,
+      "gpu_mem_reserved_mb": 8839.5,
+      "notes": "text and audio run concurrently"
+    },
+    {
+      "name": "5. Feature extraction: video",
+      "elapsed_s": 212.85,
+      "gpu_mem_allocated_mb": 0.0,
+      "gpu_mem_reserved_mb": 4332.7,
+      "notes": "extractor type: HuggingFaceVideo"
+    },
+    {
+      "name": "5. Feature extraction: subject_id",
+      "elapsed_s": 0.008,
+      "gpu_mem_allocated_mb": 0.0,
+      "gpu_mem_reserved_mb": 1155.5,
+      "notes": "extractor type: LabelEncoder"
+    },
+    {
+      "name": "6. Build dataloader",
+      "elapsed_s": 0.005,
+      "gpu_mem_allocated_mb": 0.0,
+      "gpu_mem_reserved_mb": 1155.5,
+      "notes": "Segment creation + SegmentDataset init"
+    },
+    {
+      "name": "7. Model inference (forward pass)",
+      "elapsed_s": 2.293,
+      "gpu_mem_allocated_mb": 0.0,
+      "gpu_mem_reserved_mb": 1155.5,
+      "notes": "Transformer forward pass over all batches"
+    },
+    {
+      "name": "8. Normalization (robust_normalize)",
+      "elapsed_s": 0.023,
+      "gpu_mem_allocated_mb": 0.0,
+      "gpu_mem_reserved_mb": 1155.5,
+      "notes": "Per-vertex 99th percentile normalization"
+    },
+    {
+      "name": "9a. Export mesh",
+      "elapsed_s": 0.002,
+      "gpu_mem_allocated_mb": 0.0,
+      "gpu_mem_reserved_mb": 1155.5,
+      "notes": "Copy pre-generated mesh from cache"
+    },
+    {
+      "name": "9b. Export predictions",
+      "elapsed_s": 0.003,
+      "gpu_mem_allocated_mb": 0.0,
+      "gpu_mem_reserved_mb": 1155.5,
+      "notes": "Binary predictions + metadata JSON"
+    },
+    {
+      "name": "9c. Export stimulus metadata",
+      "elapsed_s": 0.983,
+      "gpu_mem_allocated_mb": 0.0,
+      "gpu_mem_reserved_mb": 1155.5,
+      "notes": "segments.json + video copy + thumbnails"
+    },
+    {
+      "name": "10. Zip output",
+      "elapsed_s": 0.535,
+      "gpu_mem_allocated_mb": 0.0,
+      "gpu_mem_reserved_mb": 1155.5,
+      "notes": ""
+    }
+  ],
+  "optimizations_enabled": true
+}

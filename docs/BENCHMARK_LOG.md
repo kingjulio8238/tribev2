@@ -175,12 +175,44 @@ Per-version timing results for the TRIBE v2 pipeline. All benchmarks use the Sin
 - Compute phases (text+audio+video): 238s on A100 vs 376s on T4 (**1.58x**)
 - Non-compute overhead (WhisperX 109s, mesh 58s) dominated total — both are cached on re-runs
 
+## A100 v5 — Production optimizations
+
+**Date:** 2026-03-28
+**GPU:** NVIDIA A100-SXM4-40GB (42,406 MB VRAM)
+**CUDA:** 12.4 | **PyTorch:** 2.6.0+cu124
+**Optimizations:** All v3 + faster-whisper, pre-bundled mesh, parallel text+audio
+
+| Phase | Time | % | vs A100 v3 | vs T4 v0 |
+|---|---|---|---|---|
+| Download video | 0.25s | 0.1% | — | — |
+| Model load (checkpoint + init) | 5.86s | 2.1% | — | — |
+| Build events (faster-whisper) | 27.65s | 9.9% | **3.95x** | **10.2x** |
+| Feature extraction: text+audio (parallel) | 30.12s | 10.8% | **1.13x** | — |
+| Feature extraction: video (V-JEPA2) | 212.85s | 76.1% | — | **8.33x** |
+| Feature extraction: subject_id | 0.01s | 0.0% | — | — |
+| Build dataloader | 0.01s | 0.0% | — | — |
+| Model inference (forward pass) | 2.29s | 0.8% | — | — |
+| Normalization | 0.02s | 0.0% | — | — |
+| Export mesh (pre-bundled) | 0.002s | 0.0% | **29,000x** | — |
+| Export predictions | 0.003s | 0.0% | — | — |
+| Export stimulus metadata | 0.98s | 0.4% | — | — |
+| Zip output | 0.54s | 0.2% | — | — |
+| **Total** | **280.6s (4.7 min)** | | **1.47x** | **8.69x** |
+
+**Key results:**
+- faster-whisper: 109s → 28s (**3.95x faster** than WhisperX)
+- Mesh export: 58s → 0.002s (pre-bundled, effectively free)
+- Text + audio parallel: 30s wall clock (vs 34s sequential)
+- Total pipeline: 6.9 min → 4.7 min (**1.47x faster** vs A100 v3)
+- **Production-ready: any 52s video → brain activations in 4.7 min on A100**
+
 ## Summary
 
-| Version | GPU | Compute Time | V-JEPA2 s/frame | vs T4 Baseline |
+| Version | GPU | Total | V-JEPA2 s/frame | vs T4 Baseline |
 |---|---|---|---|---|
 | v0 (baseline) | T4 | 40.6 min | 17.0s | 1.0x |
 | v1 (FP16 + compile) | T4 | 12.8 min | 6.8s | 3.17x |
 | v2 (32-frame) | T4 | 7.9 min | 3.9s | 5.14x |
 | v3 (cuDNN bench) | T4 | 6.5 min | 3.1s | 6.21x |
-| **v3 (A100)** | **A100** | **4.0 min** (compute) | **1.95s** | **8.72x** |
+| v3 (A100) | A100 | 6.9 min | 1.95s | 5.88x |
+| **v5 (A100 production)** | **A100** | **4.7 min** | **2.05s** | **8.69x** |
