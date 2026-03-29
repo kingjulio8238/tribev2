@@ -1,4 +1,4 @@
-import { useRef, useEffect, useState } from 'react';
+import { useRef, useEffect, useState, useCallback } from 'react';
 import { MediaPanel } from './components/MediaPanel';
 import { BrainPanel } from './components/BrainPanel';
 import { TransportBar } from './components/TransportBar';
@@ -7,7 +7,7 @@ import { usePlayback } from './hooks/usePlayback';
 import { useBrainData } from './hooks/useBrainData';
 import { useReportData } from './hooks/useReportData';
 import { useEmotionData } from './hooks/useEmotionData';
-import { DEMOS, DEFAULT_DEMO } from './utils/demos';
+import { DEFAULT_DEMO, resolveDemo } from './utils/demos';
 import type { DemoConfig } from './utils/demos';
 
 /** Returns true when the viewport is narrower than the given breakpoint. */
@@ -40,8 +40,7 @@ function parseShareParams(): {
 
   const demoParam = params.get('demo');
   if (demoParam) {
-    const found = DEMOS.find((d) => d.id === demoParam);
-    if (found) demo = found;
+    demo = resolveDemo(demoParam);
   }
 
   const tParam = params.get('t');
@@ -81,6 +80,17 @@ export function App() {
   const reportData = useReportData(currentDemo.basePath);
   const emotionData = useEmotionData(currentDemo.basePath);
   const [showReport, setShowReport] = useState(false);
+  const [copied, setCopied] = useState(false);
+
+  const handleShare = useCallback(() => {
+    const url = new URL(window.location.href);
+    url.searchParams.set('demo', currentDemo.id);
+    url.searchParams.set('t', String(Math.floor(playback.currentTime)));
+    navigator.clipboard.writeText(url.toString()).then(() => {
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    });
+  }, [currentDemo.id, playback.currentTime]);
 
   const isNarrow = useIsNarrow(900);
 
@@ -338,7 +348,9 @@ export function App() {
             </div>
           </div>
 
-          {/* Bottom transport bar */}
+          {/* Bottom: transport bar + share button */}
+          <div style={{ display: 'flex', gap: 10, alignItems: 'center' }}>
+          <div style={{ flex: 1 }}>
           <TransportBar
             currentTime={playback.currentTime}
             duration={playback.duration}
@@ -353,6 +365,26 @@ export function App() {
             onStepBackward={playback.stepBackward}
             onSetPlaybackSpeed={playback.setPlaybackSpeed}
           />
+          </div>
+          <button
+            onClick={handleShare}
+            style={{
+              background: '#FFFFFF',
+              color: copied ? '#1B7A3D' : '#5A5F70',
+              border: '1px solid #D8DBE4',
+              borderRadius: 6,
+              padding: '6px 14px',
+              fontSize: 11,
+              fontFamily: "'JetBrains Mono', monospace",
+              fontWeight: 500,
+              cursor: 'pointer',
+              whiteSpace: 'nowrap',
+              transition: 'color 150ms',
+            }}
+          >
+            {copied ? 'Copied!' : 'Share'}
+          </button>
+          </div>
         </div>
       )}
     </div>
