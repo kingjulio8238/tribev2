@@ -1,6 +1,36 @@
 # TODO
 
-## Viewer
+## 1. Share URL Infrastructure (next)
 
-- [ ] Add proper share functionality (screenshot export + shareable URL with encoded state). The `ExportControls` component exists at `viewer/src/components/ExportControls.tsx` but is currently disabled. It supports screenshot via canvas `toDataURL` and URL sharing with `?demo=&t=&view=` params. Needs UX polish before re-enabling.
-- [ ] Improve encoding speed. V-JEPA2 video encoding is the bottleneck (~16s/frame on T4 GPU, ~25-30 min for a 52s video). Potential improvements: FP16/BF16 inference, larger batch sizes on higher-VRAM GPUs (A100/H100), INT8 quantization of feature extractors, smarter temporal subsampling, feature caching across runs. See `viewer/PERFORMANCE.md` for details.
+- [ ] Deploy viewer as static site (Vercel/Netlify)
+- [ ] Upload viewer_data to cloud storage per share ID
+- [ ] Shareable URL: `https://viewer-host/?demo={share_id}`
+- [ ] Share button in viewer copies URL to clipboard
+- [ ] Support sharing both brain view and report view
+
+## 2. Production API + A/B Testing
+
+- [ ] FastAPI with persistent model loading (warm models in GPU memory)
+- [ ] Async job queue for video processing
+- [ ] Multi-demo viewer support (upload → process → view)
+- [ ] A/B comparison view: side-by-side brain + emotion + report for two video variants
+- [ ] See `docs/MULTIPLE_VIDS.md` for full architecture
+
+## 3. AutoResearch Pipeline
+
+- [ ] Autonomous research loop that iterates on video creative based on brain/emotion feedback
+- [ ] Takes video + brief + report → proposes modifications grounded in brain insights
+- [ ] Generates variants or prompts for them
+- [ ] Re-runs pipeline on variants, compares results automatically
+- [ ] Iterates until objectives are met
+- [ ] Inspired by [autoresearch](https://github.com/karpathy/autoresearch)
+
+## Completed
+
+- [x] Encoding speed optimizations: 40.6 min → 4.7 min on A100 (8.69x). See `docs/OPTIMIZATIONS.md` and `docs/BENCHMARK_LOG.md`
+- [x] Emotion analysis via Groq (6 emotions mapped from brain lobe activations)
+- [x] Effectiveness report via Groq (score, emotional arc, key moments, brain insights, recommendations)
+- [x] Full-screen report mode with expandable key moment previews (video + brain snapshot + mini bar charts)
+- [x] Google Drive video input in Colab notebook
+- [x] Pre-convert .mov/large files to compressed mp4 before pipeline
+- [x] Multiple demo support (Sintel + Bud Light)
