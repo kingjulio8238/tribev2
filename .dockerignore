@@ -1,0 +1,13 @@
+.git
+.gitignore
+*.pyc
+__pycache__
+.env
+.vercel
+node_modules
+viewer/node_modules
+viewer/dist
+viewer/.vercel
+*.zip
+uploads/
+jobs/
