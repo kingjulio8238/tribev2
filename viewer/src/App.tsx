@@ -286,6 +286,7 @@ export function App() {
               loading={loading}
               demoId={currentDemo.id}
               basePath={currentDemo.basePath}
+              onSeek={playback.seek}
               initialCameraPosition={
                 shareParams.current.initialCameraPosition ?? undefined
               }

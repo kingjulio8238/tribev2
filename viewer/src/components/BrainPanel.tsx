@@ -8,8 +8,10 @@ import type { HoverInfo } from './RaycastHandler';
 import { CameraAnimator, requestCameraMove } from './ViewPresets';
 import { RegionActivityBar } from './RegionActivityBar';
 import { EmotionBar } from './EmotionBar';
+import { ReportPanel } from './ReportPanel';
 import { useRegionActivity } from '../hooks/useRegionActivity';
 import { useEmotionData, useEmotionScores } from '../hooks/useEmotionData';
+import { useReportData } from '../hooks/useReportData';
 import type {
   BrainMeshData,
   PredictionData,
@@ -28,6 +30,7 @@ interface BrainPanelProps {
   loading: boolean;
   demoId: string;
   basePath: string;
+  onSeek?: (time: number) => void;
   initialCameraPosition?: [number, number, number];
 }
 
@@ -42,6 +45,7 @@ export function BrainPanel({
   loading,
   demoId: _demoId,
   basePath,
+  onSeek,
   initialCameraPosition,
 }: BrainPanelProps) {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -52,6 +56,7 @@ export function BrainPanel({
   const regions = useRegionActivity(predictions, roiData, currentTime, trSeconds);
   const emotionData = useEmotionData(basePath);
   const emotionScores = useEmotionScores(emotionData, currentTime, trSeconds);
+  const reportData = useReportData(basePath);
 
   useEffect(() => {
     const el = containerRef.current;
@@ -170,6 +175,9 @@ export function BrainPanel({
         onRegionClick={handleRegionClick}
       />
       <EmotionBar emotions={emotionScores} />
+      {reportData && onSeek && (
+        <ReportPanel report={reportData} onSeek={onSeek} />
+      )}
       <BrainTooltip
         visible={hoverInfo !== null}
         x={hoverInfo?.screenX ?? 0}

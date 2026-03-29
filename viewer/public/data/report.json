@@ -1,0 +1,68 @@
+{
+  "title": "Sintel Trailer",
+  "overallScore": 78,
+  "summary": "The trailer effectively builds emotional engagement through its visual storytelling. Strong occipital and temporal activation indicates high visual processing and narrative comprehension. Peak engagement aligns with key dramatic moments.",
+  "emotionalArc": {
+    "intended": [
+      "Wonder",
+      "Tension",
+      "Empathy"
+    ],
+    "actual": [
+      "Wonder",
+      "Empathy",
+      "Tension"
+    ],
+    "alignment": 0.82
+  },
+  "keyMoments": [
+    {
+      "time": 5,
+      "endTime": 12,
+      "label": "Opening landscape",
+      "engagement": 0.65,
+      "dominantEmotions": [
+        "Wonder",
+        "Engagement"
+      ],
+      "alignsWithObjective": true,
+      "insight": "Visual novelty captures attention effectively"
+    },
+    {
+      "time": 24,
+      "endTime": 32,
+      "label": "Character introduction",
+      "engagement": 0.72,
+      "dominantEmotions": [
+        "Empathy",
+        "Engagement"
+      ],
+      "alignsWithObjective": true,
+      "insight": "Temporal lobe activation shows strong social cognition"
+    },
+    {
+      "time": 38,
+      "endTime": 45,
+      "label": "Action sequence",
+      "engagement": 0.85,
+      "dominantEmotions": [
+        "Excitement",
+        "Tension"
+      ],
+      "alignsWithObjective": true,
+      "insight": "Peak frontal + occipital activation \u2014 high arousal achieved"
+    }
+  ],
+  "brainInsights": [
+    "Sustained occipital activation throughout indicates strong visual engagement with animation quality",
+    "Temporal lobe peaks during dialog scenes \u2014 narrative is being processed and understood",
+    "Frontal lobe spikes at 0:38 suggest decision-making engagement during action scenes",
+    "Insular activation during character distress scenes indicates emotional resonance"
+  ],
+  "recommendations": [
+    "The opening 5 seconds could be more visually impactful to capture attention faster",
+    "Consider adding a stronger audio cue before the action sequence to prime engagement",
+    "The emotional arc successfully builds \u2014 maintain this pacing structure",
+    "Product/brand integration point would be most effective at the 0:38 peak engagement moment"
+  ]
+}
