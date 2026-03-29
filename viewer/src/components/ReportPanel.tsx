@@ -1,7 +1,8 @@
 import { useState } from 'react';
 import { Canvas } from '@react-three/fiber';
 import { BrainMesh } from './BrainMesh';
-import type { ReportData, BrainMeshData, PredictionData, Metadata } from '../types/index.ts';
+import type { ReportData, BrainMeshData, PredictionData, Metadata, ROIData } from '../types/index.ts';
+import { LOBE_GROUPS, buildLobeVertexMap } from '../utils/roiGroups.ts';
 
 /* ------------------------------------------------------------------ */
 /*  Types                                                              */
@@ -13,6 +14,7 @@ interface ReportPanelProps {
   meshData: BrainMeshData | null;
   predictions: PredictionData | null;
   metadata: Metadata | null;
+  roiData: ROIData | null;
   onSeek: (time: number) => void;
   onBack: () => void;
 }
@@ -35,12 +37,14 @@ function MomentPreview({
   meshData,
   predictions,
   metadata,
+  roiData,
 }: {
   time: number;
   basePath: string;
   meshData: BrainMeshData | null;
   predictions: PredictionData | null;
   metadata: Metadata | null;
+  roiData: ROIData | null;
 }) {
   const trSeconds = metadata?.trSeconds ?? 1;
   const timestepIndex = Math.min(
@@ -49,6 +53,33 @@ function MomentPreview({
   );
   const thumbIdx = String(timestepIndex).padStart(5, '0');
   const thumbUrl = `${basePath}/stimulus/thumbnails/frame_${thumbIdx}.jpg`;
+
+  // Find the lobe with highest mean activation at this timestep
+  let cameraPosition: [number, number, number] = [0, 250, 0];
+  let cameraUp: [number, number, number] = [0, 0, 1];
+
+  if (predictions && roiData) {
+    const lobeVertexMap = buildLobeVertexMap(roiData.roiNames, roiData.vertexLabels);
+    const frameOffset = timestepIndex * predictions.nVertices;
+    const frameData = predictions.data.subarray(frameOffset, frameOffset + predictions.nVertices);
+
+    let peakActivation = -1;
+    for (const group of LOBE_GROUPS) {
+      const indices = lobeVertexMap.get(group.name);
+      if (indices && indices.length > 0) {
+        let sum = 0;
+        for (let i = 0; i < indices.length; i++) {
+          sum += frameData[indices[i]];
+        }
+        const mean = sum / indices.length;
+        if (mean > peakActivation) {
+          peakActivation = mean;
+          cameraPosition = group.cameraPosition;
+          cameraUp = group.cameraUp;
+        }
+      }
+    }
+  }
 
   return (
     <div
@@ -93,7 +124,7 @@ function MomentPreview({
       >
         {meshData && predictions && metadata ? (
           <Canvas
-            camera={{ position: [0, 250, 0], fov: 50, up: [0, 0, 1] }}
+            camera={{ position: cameraPosition, fov: 50, up: cameraUp }}
             gl={{ alpha: true }}
             style={{ width: '100%', height: '100%', background: '#FFFFFF' }}
           >
@@ -152,6 +183,7 @@ export function ReportPanel({
   meshData,
   predictions,
   metadata,
+  roiData,
   onSeek,
   onBack,
 }: ReportPanelProps) {
@@ -288,6 +320,7 @@ export function ReportPanel({
                       meshData={meshData}
                       predictions={predictions}
                       metadata={metadata}
+                      roiData={roiData}
                     />
                     <button
                       onClick={(e) => {

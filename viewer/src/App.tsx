@@ -247,6 +247,7 @@ export function App() {
             meshData={meshData}
             predictions={predictions}
             metadata={metadata}
+            roiData={roiData}
             onSeek={(time) => {
               setShowReport(false);
               setTimeout(() => playback.seek(time), 100);
