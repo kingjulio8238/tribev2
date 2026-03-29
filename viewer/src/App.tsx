@@ -82,16 +82,6 @@ export function App() {
   const [showReport, setShowReport] = useState(false);
   const [copied, setCopied] = useState(false);
 
-  const handleShare = useCallback(() => {
-    const url = new URL(window.location.href);
-    url.searchParams.set('demo', currentDemo.id);
-    url.searchParams.set('t', String(Math.floor(playback.currentTime)));
-    navigator.clipboard.writeText(url.toString()).then(() => {
-      setCopied(true);
-      setTimeout(() => setCopied(false), 2000);
-    });
-  }, [currentDemo.id, playback.currentTime]);
-
   const isNarrow = useIsNarrow(900);
 
   // Derive duration and trSeconds from loaded metadata, with fallbacks
@@ -105,6 +95,16 @@ export function App() {
     trSeconds,
     videoRef,
   });
+
+  const handleShare = useCallback(() => {
+    const url = new URL(window.location.href);
+    url.searchParams.set('demo', currentDemo.id);
+    url.searchParams.set('t', String(Math.floor(playback.currentTime)));
+    navigator.clipboard.writeText(url.toString()).then(() => {
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    });
+  }, [currentDemo.id, playback.currentTime]);
 
   // Seek to the shared time once metadata has loaded
   const didSeekFromUrl = useRef(false);
