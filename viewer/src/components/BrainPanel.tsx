@@ -31,6 +31,8 @@ interface BrainPanelProps {
   onSeek?: (time: number) => void;
   hasReport?: boolean;
   onShowReport?: () => void;
+  onShare?: () => void;
+  shareCopied?: boolean;
   initialCameraPosition?: [number, number, number];
 }
 
@@ -47,6 +49,8 @@ export function BrainPanel({
   basePath,
   hasReport,
   onShowReport,
+  onShare,
+  shareCopied,
   initialCameraPosition,
 }: BrainPanelProps) {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -175,7 +179,7 @@ export function BrainPanel({
         onRegionClick={handleRegionClick}
       />
       <EmotionBar emotions={emotionScores} />
-      {hasReport && onShowReport && (
+      {(hasReport || onShare) && (
         <div
           style={{
             flexShrink: 0,
@@ -183,25 +187,48 @@ export function BrainPanel({
             padding: '8px 20px',
             display: 'flex',
             justifyContent: 'flex-start',
+            gap: 8,
           }}
         >
-          <button
-            onClick={onShowReport}
-            style={{
-              background: '#FFFFFF',
-              color: '#1A1D26',
-              border: '1px solid #D8DBE4',
-              borderRadius: 6,
-              padding: '6px 16px',
-              fontSize: 11,
-              fontFamily: "'JetBrains Mono', monospace",
-              fontWeight: 500,
-              cursor: 'pointer',
-              letterSpacing: '0.04em',
-            }}
-          >
-            View Report
-          </button>
+          {hasReport && onShowReport && (
+            <button
+              onClick={onShowReport}
+              style={{
+                background: '#FFFFFF',
+                color: '#1A1D26',
+                border: '1px solid #D8DBE4',
+                borderRadius: 6,
+                padding: '6px 16px',
+                fontSize: 11,
+                fontFamily: "'JetBrains Mono', monospace",
+                fontWeight: 500,
+                cursor: 'pointer',
+                letterSpacing: '0.04em',
+              }}
+            >
+              View Report
+            </button>
+          )}
+          {onShare && (
+            <button
+              onClick={onShare}
+              style={{
+                background: '#FFFFFF',
+                color: shareCopied ? '#1B7A3D' : '#1A1D26',
+                border: '1px solid #D8DBE4',
+                borderRadius: 6,
+                padding: '6px 16px',
+                fontSize: 11,
+                fontFamily: "'JetBrains Mono', monospace",
+                fontWeight: 500,
+                cursor: 'pointer',
+                letterSpacing: '0.04em',
+                transition: 'color 150ms',
+              }}
+            >
+              {shareCopied ? 'Copied!' : 'Share'}
+            </button>
+          )}
         </div>
       )}
       <BrainTooltip

@@ -341,6 +341,8 @@ export function App() {
                 onSeek={playback.seek}
                 hasReport={reportData !== null}
                 onShowReport={() => setShowReport(true)}
+                onShare={handleShare}
+                shareCopied={copied}
                 initialCameraPosition={
                   shareParams.current.initialCameraPosition ?? undefined
                 }
@@ -348,9 +350,7 @@ export function App() {
             </div>
           </div>
 
-          {/* Bottom: transport bar + share button */}
-          <div style={{ display: 'flex', gap: 10, alignItems: 'center' }}>
-          <div style={{ flex: 1 }}>
+          {/* Bottom transport bar */}
           <TransportBar
             currentTime={playback.currentTime}
             duration={playback.duration}
@@ -365,26 +365,6 @@ export function App() {
             onStepBackward={playback.stepBackward}
             onSetPlaybackSpeed={playback.setPlaybackSpeed}
           />
-          </div>
-          <button
-            onClick={handleShare}
-            style={{
-              background: '#FFFFFF',
-              color: copied ? '#1B7A3D' : '#5A5F70',
-              border: '1px solid #D8DBE4',
-              borderRadius: 6,
-              padding: '6px 14px',
-              fontSize: 11,
-              fontFamily: "'JetBrains Mono', monospace",
-              fontWeight: 500,
-              cursor: 'pointer',
-              whiteSpace: 'nowrap',
-              transition: 'color 150ms',
-            }}
-          >
-            {copied ? 'Copied!' : 'Share'}
-          </button>
-          </div>
         </div>
       )}
     </div>
