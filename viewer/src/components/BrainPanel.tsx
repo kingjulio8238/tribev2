@@ -200,7 +200,7 @@ export function BrainPanel({
               letterSpacing: '0.04em',
             }}
           >
-            View Effectiveness Report
+            View Report
           </button>
         </div>
       )}
