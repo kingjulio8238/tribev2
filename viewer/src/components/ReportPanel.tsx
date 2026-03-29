@@ -1,4 +1,7 @@
-import type { ReportData } from '../types/index.ts';
+import { useState } from 'react';
+import { Canvas } from '@react-three/fiber';
+import { BrainMesh } from './BrainMesh';
+import type { ReportData, BrainMeshData, PredictionData, Metadata } from '../types/index.ts';
 
 /* ------------------------------------------------------------------ */
 /*  Types                                                              */
@@ -6,6 +9,10 @@ import type { ReportData } from '../types/index.ts';
 
 interface ReportPanelProps {
   report: ReportData;
+  basePath: string;
+  meshData: BrainMeshData | null;
+  predictions: PredictionData | null;
+  metadata: Metadata | null;
   onSeek: (time: number) => void;
   onBack: () => void;
 }
@@ -19,19 +26,117 @@ const mono: React.CSSProperties = {
 };
 
 /* ------------------------------------------------------------------ */
+/*  Moment Preview (thumbnail + brain snapshot)                        */
+/* ------------------------------------------------------------------ */
+
+function MomentPreview({
+  time,
+  basePath,
+  meshData,
+  predictions,
+  metadata,
+}: {
+  time: number;
+  basePath: string;
+  meshData: BrainMeshData | null;
+  predictions: PredictionData | null;
+  metadata: Metadata | null;
+}) {
+  const trSeconds = metadata?.trSeconds ?? 1;
+  const timestepIndex = Math.min(
+    Math.max(Math.floor(time / trSeconds), 0),
+    (metadata?.nTimesteps ?? 1) - 1,
+  );
+  const thumbIdx = String(timestepIndex).padStart(5, '0');
+  const thumbUrl = `${basePath}/stimulus/thumbnails/frame_${thumbIdx}.jpg`;
+
+  return (
+    <div
+      style={{
+        display: 'flex',
+        gap: 12,
+        padding: '12px 0',
+        borderTop: '1px solid #F0F1F4',
+      }}
+    >
+      {/* Video thumbnail */}
+      <div
+        style={{
+          flex: 1,
+          borderRadius: 8,
+          overflow: 'hidden',
+          border: '1px solid #E8EAF0',
+          backgroundColor: '#F8F9FA',
+          minHeight: 160,
+        }}
+      >
+        <img
+          src={thumbUrl}
+          alt={`Frame at ${formatTime(time)}`}
+          style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
+          onError={(e) => {
+            (e.target as HTMLImageElement).style.display = 'none';
+          }}
+        />
+      </div>
+
+      {/* Brain snapshot */}
+      <div
+        style={{
+          flex: 1,
+          borderRadius: 8,
+          overflow: 'hidden',
+          border: '1px solid #E8EAF0',
+          backgroundColor: '#FFFFFF',
+          minHeight: 160,
+        }}
+      >
+        {meshData && predictions && metadata ? (
+          <Canvas
+            camera={{ position: [0, 250, 0], fov: 50, up: [0, 0, 1] }}
+            gl={{ alpha: true }}
+            style={{ width: '100%', height: '100%', background: '#FFFFFF' }}
+          >
+            <ambientLight intensity={0.6} />
+            <directionalLight position={[100, 100, 100]} intensity={0.7} />
+            <directionalLight position={[-60, -60, 40]} intensity={0.25} />
+            <BrainMesh
+              timestepIndex={timestepIndex}
+              currentTime={time}
+              trSeconds={trSeconds}
+              meshData={meshData}
+              predictions={predictions}
+              metadata={metadata}
+            />
+          </Canvas>
+        ) : (
+          <div
+            style={{
+              width: '100%',
+              height: '100%',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              color: '#8B90A0',
+              fontSize: 11,
+              ...mono,
+            }}
+          >
+            Brain data not available
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+
+/* ------------------------------------------------------------------ */
 /*  Score badge                                                        */
 /* ------------------------------------------------------------------ */
 
 function ScoreBadge({ score }: { score: number }) {
   return (
-    <div
-      style={{
-        display: 'inline-flex',
-        alignItems: 'baseline',
-        gap: 4,
-        ...mono,
-      }}
-    >
+    <div style={{ display: 'inline-flex', alignItems: 'baseline', gap: 4, ...mono }}>
       <span style={{ fontSize: 14, fontWeight: 600, color: '#1A1D26' }}>{score}/100</span>
     </div>
   );
@@ -41,7 +146,17 @@ function ScoreBadge({ score }: { score: number }) {
 /*  Component                                                          */
 /* ------------------------------------------------------------------ */
 
-export function ReportPanel({ report, onSeek, onBack }: ReportPanelProps) {
+export function ReportPanel({
+  report,
+  basePath,
+  meshData,
+  predictions,
+  metadata,
+  onSeek,
+  onBack,
+}: ReportPanelProps) {
+  const [expandedMoment, setExpandedMoment] = useState<number | null>(null);
+
   return (
     <div style={{ padding: '20px 24px', ...mono }}>
       {/* Back button */}
@@ -121,69 +236,83 @@ export function ReportPanel({ report, onSeek, onBack }: ReportPanelProps) {
 
       {/* Key Moments */}
       <Section title="Key Moments">
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
-          {report.keyMoments.map((m, i) => (
-            <div
-              key={i}
-              onClick={() => onSeek(m.time)}
-              style={{
-                display: 'flex',
-                alignItems: 'flex-start',
-                gap: 8,
-                padding: '8px 10px',
-                borderRadius: 6,
-                cursor: 'pointer',
-                transition: 'background-color 150ms',
-                backgroundColor: 'transparent',
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.backgroundColor = 'rgba(0,0,0,0.03)';
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.backgroundColor = 'transparent';
-              }}
-            >
-              <span
-                style={{
-                  fontSize: 10,
-                  color: '#2B7A83',
-                  width: 55,
-                  flexShrink: 0,
-                  fontWeight: 600,
-                }}
-              >
-                {formatTime(m.time)}-{formatTime(m.endTime)}
-              </span>
-              <span
-                style={{
-                  fontSize: 11,
-                  flexShrink: 0,
-                  width: 14,
-                  textAlign: 'center',
-                  color: m.alignsWithObjective ? '#1B7A3D' : '#B83B3B',
-                }}
-              >
-                {m.alignsWithObjective ? '✓' : '✗'}
-              </span>
-              <div style={{ flex: 1, minWidth: 0 }}>
-                <div style={{ fontSize: 11, fontWeight: 600, color: '#1A1D26' }}>
-                  {m.label}
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
+          {report.keyMoments.map((m, i) => {
+            const isExpanded = expandedMoment === i;
+            return (
+              <div key={i}>
+                <div
+                  onClick={() => setExpandedMoment(isExpanded ? null : i)}
+                  style={{
+                    display: 'flex',
+                    alignItems: 'flex-start',
+                    gap: 8,
+                    padding: '8px 10px',
+                    borderRadius: 6,
+                    cursor: 'pointer',
+                    transition: 'background-color 150ms',
+                    backgroundColor: isExpanded ? 'rgba(0,0,0,0.03)' : 'transparent',
+                  }}
+                  onMouseEnter={(e) => {
+                    if (!isExpanded) e.currentTarget.style.backgroundColor = 'rgba(0,0,0,0.02)';
+                  }}
+                  onMouseLeave={(e) => {
+                    if (!isExpanded) e.currentTarget.style.backgroundColor = 'transparent';
+                  }}
+                >
+                  <span style={{ fontSize: 10, color: '#2B7A83', width: 55, flexShrink: 0, fontWeight: 600 }}>
+                    {formatTime(m.time)}-{formatTime(m.endTime)}
+                  </span>
+                  <span style={{ fontSize: 11, flexShrink: 0, width: 14, textAlign: 'center', color: m.alignsWithObjective ? '#1B7A3D' : '#B83B3B' }}>
+                    {m.alignsWithObjective ? '✓' : '✗'}
+                  </span>
+                  <div style={{ flex: 1, minWidth: 0 }}>
+                    <div style={{ fontSize: 11, fontWeight: 600, color: '#1A1D26' }}>
+                      {isExpanded ? '▾ ' : '▸ '}{m.label}
+                    </div>
+                    <div style={{ fontSize: 10, color: '#5A5F70', marginTop: 3, lineHeight: 1.5 }}>
+                      {m.insight}
+                    </div>
+                  </div>
+                  <span style={{ fontSize: 10, color: '#8B90A0', flexShrink: 0 }}>
+                    {Math.round(m.engagement * 100)}%
+                  </span>
                 </div>
-                <div style={{ fontSize: 10, color: '#5A5F70', marginTop: 3, lineHeight: 1.5 }}>
-                  {m.insight}
-                </div>
+
+                {/* Expanded: thumbnail + brain preview */}
+                {isExpanded && (
+                  <div style={{ padding: '0 10px 8px 10px' }}>
+                    <MomentPreview
+                      time={m.time}
+                      basePath={basePath}
+                      meshData={meshData}
+                      predictions={predictions}
+                      metadata={metadata}
+                    />
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        onSeek(m.time);
+                      }}
+                      style={{
+                        background: 'none',
+                        border: '1px solid #D8DBE4',
+                        borderRadius: 4,
+                        padding: '3px 10px',
+                        fontSize: 10,
+                        color: '#5A5F70',
+                        cursor: 'pointer',
+                        marginTop: 6,
+                        ...mono,
+                      }}
+                    >
+                      ▶ Play from this moment
+                    </button>
+                  </div>
+                )}
               </div>
-              <span
-                style={{
-                  fontSize: 10,
-                  color: '#8B90A0',
-                  flexShrink: 0,
-                }}
-              >
-                {Math.round(m.engagement * 100)}%
-              </span>
-            </div>
-          ))}
+            );
+          })}
         </div>
       </Section>
 

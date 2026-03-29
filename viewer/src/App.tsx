@@ -2,8 +2,10 @@ import { useRef, useEffect, useState } from 'react';
 import { MediaPanel } from './components/MediaPanel';
 import { BrainPanel } from './components/BrainPanel';
 import { TransportBar } from './components/TransportBar';
+import { ReportPanel } from './components/ReportPanel';
 import { usePlayback } from './hooks/usePlayback';
 import { useBrainData } from './hooks/useBrainData';
+import { useReportData } from './hooks/useReportData';
 import { DEMOS, DEFAULT_DEMO } from './utils/demos';
 import type { DemoConfig } from './utils/demos';
 
@@ -75,6 +77,9 @@ export function App() {
   const { meshData, predictions, metadata, segments, roiData, loading, error } =
     useBrainData(currentDemo.basePath);
 
+  const reportData = useReportData(currentDemo.basePath);
+  const [showReport, setShowReport] = useState(false);
+
   const isNarrow = useIsNarrow(900);
 
   // Derive duration and trSeconds from loaded metadata, with fallbacks
@@ -112,6 +117,12 @@ export function App() {
       const tag = (e.target as HTMLElement)?.tagName;
       if (tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT') return;
 
+      // Escape exits report mode
+      if (e.code === 'Escape' && showReport) {
+        setShowReport(false);
+        return;
+      }
+
       switch (e.code) {
         case 'Space':
           e.preventDefault();
@@ -130,7 +141,7 @@ export function App() {
 
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [playback.toggle, playback.stepForward, playback.stepBackward]);
+  }, [playback.toggle, playback.stepForward, playback.stepBackward, showReport]);
 
   return (
     <div
@@ -217,99 +228,129 @@ export function App() {
         </div>
       )}
 
-      {/* Inner flex layout: header, panels, transport as card elements */}
-      <div
-        style={{
-          width: '100%',
-          height: '100%',
-          display: 'flex',
-          flexDirection: 'column',
-          gap: 10,
-        }}
-      >
-        {/* Main panels */}
+      {showReport && reportData ? (
+        /* ── Report Mode: full-screen report ── */
         <div
           style={{
-            flex: 1,
-            display: 'flex',
-            flexDirection: isNarrow ? 'column' : 'row',
-            gap: 10,
-            overflow: 'hidden',
+            width: '100%',
+            height: '100%',
+            backgroundColor: '#FFFFFF',
+            border: '1px solid #E8EAF0',
+            borderRadius: 12,
+            boxShadow: '0 1px 2px rgba(0,0,0,0.04)',
+            overflow: 'auto',
           }}
         >
-          {/* Left / Top panel - Media */}
-          <div
-            style={{
-              flex: isNarrow ? undefined : 4,
-              width: isNarrow ? '100%' : undefined,
-              height: isNarrow ? '50%' : '100%',
-              backgroundColor: '#FFFFFF',
-              border: '1px solid #E8EAF0',
-              borderRadius: 12,
-              boxShadow: '0 1px 2px rgba(0,0,0,0.04)',
-              overflow: 'hidden',
+          <ReportPanel
+            report={reportData}
+            basePath={currentDemo.basePath}
+            meshData={meshData}
+            predictions={predictions}
+            metadata={metadata}
+            onSeek={(time) => {
+              setShowReport(false);
+              setTimeout(() => playback.seek(time), 100);
             }}
-          >
-            <MediaPanel
-              currentTime={playback.currentTime}
-              duration={playback.duration}
-              isPlaying={playback.isPlaying}
-              segments={segments}
-              videoRef={videoRef}
-              onTimeUpdate={playback.seek}
-              basePath={currentDemo.basePath}
-            />
-          </div>
-
-          {/* Right / Bottom panel - Brain */}
-          <div
-            style={{
-              flex: isNarrow ? undefined : 6,
-              width: isNarrow ? '100%' : undefined,
-              height: isNarrow ? '50%' : '100%',
-              backgroundColor: '#FFFFFF',
-              border: '1px solid #E8EAF0',
-              borderRadius: 12,
-              boxShadow: '0 1px 2px rgba(0,0,0,0.04)',
-              overflow: 'hidden',
-              position: 'relative',
-            }}
-          >
-            <BrainPanel
-              timestepIndex={playback.timestepIndex}
-              currentTime={playback.currentTime}
-              trSeconds={trSeconds}
-              meshData={meshData}
-              predictions={predictions}
-              metadata={metadata}
-              roiData={roiData}
-              loading={loading}
-              demoId={currentDemo.id}
-              basePath={currentDemo.basePath}
-              onSeek={playback.seek}
-              initialCameraPosition={
-                shareParams.current.initialCameraPosition ?? undefined
-              }
-            />
-          </div>
+            onBack={() => setShowReport(false)}
+          />
         </div>
+      ) : (
+        /* ── Normal Mode: two-panel layout ── */
+        <div
+          style={{
+            width: '100%',
+            height: '100%',
+            display: 'flex',
+            flexDirection: 'column',
+            gap: 10,
+          }}
+        >
+          {/* Main panels */}
+          <div
+            style={{
+              flex: 1,
+              display: 'flex',
+              flexDirection: isNarrow ? 'column' : 'row',
+              gap: 10,
+              overflow: 'hidden',
+            }}
+          >
+            {/* Left / Top panel - Media */}
+            <div
+              style={{
+                flex: isNarrow ? undefined : 4,
+                width: isNarrow ? '100%' : undefined,
+                height: isNarrow ? '50%' : '100%',
+                backgroundColor: '#FFFFFF',
+                border: '1px solid #E8EAF0',
+                borderRadius: 12,
+                boxShadow: '0 1px 2px rgba(0,0,0,0.04)',
+                overflow: 'hidden',
+              }}
+            >
+              <MediaPanel
+                currentTime={playback.currentTime}
+                duration={playback.duration}
+                isPlaying={playback.isPlaying}
+                segments={segments}
+                videoRef={videoRef}
+                onTimeUpdate={playback.seek}
+                basePath={currentDemo.basePath}
+              />
+            </div>
 
-        {/* Bottom transport bar */}
-        <TransportBar
-          currentTime={playback.currentTime}
-          duration={playback.duration}
-          isPlaying={playback.isPlaying}
-          timestepIndex={playback.timestepIndex}
-          nTimesteps={playback.nTimesteps}
-          trSeconds={trSeconds}
-          playbackSpeed={playback.playbackSpeed}
-          onToggle={playback.toggle}
-          onSeek={playback.seek}
-          onStepForward={playback.stepForward}
-          onStepBackward={playback.stepBackward}
-          onSetPlaybackSpeed={playback.setPlaybackSpeed}
-        />
-      </div>
+            {/* Right / Bottom panel - Brain */}
+            <div
+              style={{
+                flex: isNarrow ? undefined : 6,
+                width: isNarrow ? '100%' : undefined,
+                height: isNarrow ? '50%' : '100%',
+                backgroundColor: '#FFFFFF',
+                border: '1px solid #E8EAF0',
+                borderRadius: 12,
+                boxShadow: '0 1px 2px rgba(0,0,0,0.04)',
+                overflow: 'hidden',
+                position: 'relative',
+              }}
+            >
+              <BrainPanel
+                timestepIndex={playback.timestepIndex}
+                currentTime={playback.currentTime}
+                trSeconds={trSeconds}
+                meshData={meshData}
+                predictions={predictions}
+                metadata={metadata}
+                roiData={roiData}
+                loading={loading}
+                demoId={currentDemo.id}
+                basePath={currentDemo.basePath}
+                onSeek={playback.seek}
+                hasReport={reportData !== null}
+                onShowReport={() => setShowReport(true)}
+                initialCameraPosition={
+                  shareParams.current.initialCameraPosition ?? undefined
+                }
+              />
+            </div>
+          </div>
+
+          {/* Bottom transport bar */}
+          <TransportBar
+            currentTime={playback.currentTime}
+            duration={playback.duration}
+            isPlaying={playback.isPlaying}
+            timestepIndex={playback.timestepIndex}
+            nTimesteps={playback.nTimesteps}
+            trSeconds={trSeconds}
+            playbackSpeed={playback.playbackSpeed}
+            onToggle={playback.toggle}
+            onSeek={playback.seek}
+            onStepForward={playback.stepForward}
+            onStepBackward={playback.stepBackward}
+            onSetPlaybackSpeed={playback.setPlaybackSpeed}
+          />
+        </div>
+      )}
     </div>
   );
 }
