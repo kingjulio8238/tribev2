@@ -1,4 +1,4 @@
-import { useRef, useMemo, useCallback } from 'react';
+import { useRef, useMemo, useEffect } from 'react';
 import { Canvas } from '@react-three/fiber';
 import { OrbitControls } from '@react-three/drei';
 import { BrainMesh } from './BrainMesh';
@@ -65,21 +65,24 @@ export function ABComparisonView({ demoA, demoB, onBack }: ABComparisonViewProps
 
   const playback = usePlayback({ duration, trSeconds, videoRef: videoRefA });
 
-  // Sync video B to A's time
-  const lastSyncedTime = useRef(0);
-  if (videoRefB.current && Math.abs(videoRefB.current.currentTime - playback.currentTime) > 0.5) {
-    videoRefB.current.currentTime = playback.currentTime;
-    lastSyncedTime.current = playback.currentTime;
-  }
-
-  // Play/pause video B in sync with A
-  const syncVideoB = useCallback(() => {
+  // Sync video B to A: time, play/pause, and playback speed
+  useEffect(() => {
     const vb = videoRefB.current;
     if (!vb) return;
+    // Sync play/pause
     if (playback.isPlaying && vb.paused) vb.play();
     if (!playback.isPlaying && !vb.paused) vb.pause();
-  }, [playback.isPlaying]);
-  syncVideoB();
+    // Sync playback speed
+    vb.playbackRate = playback.playbackSpeed;
+  }, [playback.isPlaying, playback.playbackSpeed]);
+
+  // Sync video B time when it drifts
+  useEffect(() => {
+    const vb = videoRefB.current;
+    if (vb && Math.abs(vb.currentTime - playback.currentTime) > 0.5) {
+      vb.currentTime = playback.currentTime;
+    }
+  }, [playback.currentTime]);
 
   // Compute mean lobe activations for comparison
   const lobeActivationsA = useMemo(() =>
