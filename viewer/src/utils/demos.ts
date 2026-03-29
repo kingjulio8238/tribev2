@@ -14,6 +14,13 @@ export const DEMOS: DemoConfig[] = [
     basePath: '/data',
     hasVideo: true,
   },
+  {
+    id: 'budlight',
+    name: 'Bud Light Super Bowl',
+    description: 'Brain response to Bud Light Super Bowl ad',
+    basePath: '/data_budlight',
+    hasVideo: true,
+  },
 ];
 
 export const DEFAULT_DEMO = DEMOS[0];
