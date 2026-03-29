@@ -23,29 +23,16 @@ const mono: React.CSSProperties = {
 /* ------------------------------------------------------------------ */
 
 function ScoreBadge({ score }: { score: number }) {
-  const color =
-    score >= 75 ? '#1B7A3D' : score >= 50 ? '#B87A14' : '#B83B3B';
-  const bg =
-    score >= 75
-      ? 'rgba(27, 122, 61, 0.08)'
-      : score >= 50
-        ? 'rgba(184, 122, 20, 0.08)'
-        : 'rgba(184, 59, 59, 0.08)';
-
   return (
     <div
       style={{
         display: 'inline-flex',
-        alignItems: 'center',
-        gap: 6,
-        padding: '6px 14px',
-        borderRadius: 8,
-        backgroundColor: bg,
+        alignItems: 'baseline',
+        gap: 4,
         ...mono,
       }}
     >
-      <span style={{ fontSize: 24, fontWeight: 700, color }}>{score}</span>
-      <span style={{ fontSize: 11, color: '#8B90A0' }}>/100</span>
+      <span style={{ fontSize: 14, fontWeight: 600, color: '#1A1D26' }}>{score}/100</span>
     </div>
   );
 }
