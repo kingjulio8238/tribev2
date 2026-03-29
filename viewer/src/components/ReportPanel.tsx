@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Canvas } from '@react-three/fiber';
 import { BrainMesh } from './BrainMesh';
-import type { ReportData, BrainMeshData, PredictionData, Metadata, ROIData } from '../types/index.ts';
+import type { ReportData, BrainMeshData, PredictionData, Metadata, ROIData, EmotionData } from '../types/index.ts';
 import { LOBE_GROUPS, buildLobeVertexMap } from '../utils/roiGroups.ts';
 
 /* ------------------------------------------------------------------ */
@@ -15,6 +15,7 @@ interface ReportPanelProps {
   predictions: PredictionData | null;
   metadata: Metadata | null;
   roiData: ROIData | null;
+  emotionData: EmotionData | null;
   onSeek: (time: number) => void;
   onBack: () => void;
 }
@@ -31,6 +32,25 @@ const mono: React.CSSProperties = {
 /*  Moment Preview (thumbnail + brain snapshot)                        */
 /* ------------------------------------------------------------------ */
 
+function MiniBar({ label, value, gradient }: { label: string; value: number; gradient: string }) {
+  return (
+    <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+      <span style={{ fontSize: 9, color: '#5A5F70', width: 60, flexShrink: 0, fontFamily: "'JetBrains Mono', monospace" }}>
+        {label}
+      </span>
+      <div style={{ flex: 1, height: 6, backgroundColor: '#E4E6EC', borderRadius: 3, overflow: 'hidden' }}>
+        <div style={{ height: '100%', width: `${value * 100}%`, background: gradient, borderRadius: 3 }} />
+      </div>
+      <span style={{ fontSize: 9, color: '#8B90A0', width: 28, textAlign: 'right', flexShrink: 0, fontFamily: "'JetBrains Mono', monospace" }}>
+        {Math.round(value * 100)}%
+      </span>
+    </div>
+  );
+}
+
+const FIRE_GRADIENT = 'linear-gradient(to right, #000000, #591500, #bf2600, #f27308, #ffbf33, #ffffd9)';
+const EMOTION_GRADIENT = 'linear-gradient(to right, #2B4162, #3E6990, #5998C5, #8FC1E3, #C4DEF6, #F0E6D3, #F4C77D, #E8985E, #D66853, #B83B5E)';
+
 function MomentPreview({
   time,
   basePath,
@@ -38,6 +58,7 @@ function MomentPreview({
   predictions,
   metadata,
   roiData,
+  emotionData,
 }: {
   time: number;
   basePath: string;
@@ -45,6 +66,7 @@ function MomentPreview({
   predictions: PredictionData | null;
   metadata: Metadata | null;
   roiData: ROIData | null;
+  emotionData: EmotionData | null;
 }) {
   const trSeconds = metadata?.trSeconds ?? 1;
   const timestepIndex = Math.min(
@@ -54,9 +76,10 @@ function MomentPreview({
   const thumbIdx = String(timestepIndex).padStart(5, '0');
   const thumbUrl = `${basePath}/stimulus/thumbnails/frame_${thumbIdx}.jpg`;
 
-  // Find the lobe with highest mean activation at this timestep
+  // Compute per-lobe activations at this timestep
   let cameraPosition: [number, number, number] = [0, 250, 0];
   let cameraUp: [number, number, number] = [0, 0, 1];
+  const lobeActivations: { name: string; value: number }[] = [];
 
   if (predictions && roiData) {
     const lobeVertexMap = buildLobeVertexMap(roiData.roiNames, roiData.vertexLabels);
@@ -66,30 +89,46 @@ function MomentPreview({
     let peakActivation = -1;
     for (const group of LOBE_GROUPS) {
       const indices = lobeVertexMap.get(group.name);
+      let mean = 0;
       if (indices && indices.length > 0) {
         let sum = 0;
         for (let i = 0; i < indices.length; i++) {
           sum += frameData[indices[i]];
         }
-        const mean = sum / indices.length;
+        mean = sum / indices.length;
         if (mean > peakActivation) {
           peakActivation = mean;
           cameraPosition = group.cameraPosition;
           cameraUp = group.cameraUp;
         }
       }
+      lobeActivations.push({ name: group.name, value: mean });
     }
   }
+
+  // Get emotion scores at this timestep
+  const emotionScores: { name: string; value: number }[] = [];
+  if (emotionData && timestepIndex < emotionData.length) {
+    const step = emotionData[timestepIndex];
+    if (step?.emotions) {
+      for (const [name, value] of Object.entries(step.emotions)) {
+        emotionScores.push({ name, value });
+      }
+    }
+  }
+
+  // Sort both by value descending, take top 3
+  const topLobes = [...lobeActivations].sort((a, b) => b.value - a.value).slice(0, 3);
+  const topEmotions = [...emotionScores].sort((a, b) => b.value - a.value).slice(0, 3);
 
   return (
     <div
       style={{
-        display: 'flex',
-        gap: 12,
         padding: '12px 0',
         borderTop: '1px solid #F0F1F4',
       }}
     >
+      <div style={{ display: 'flex', gap: 12 }}>
       {/* Video thumbnail */}
       <div
         style={{
@@ -157,6 +196,35 @@ function MomentPreview({
           </div>
         )}
       </div>
+      </div>
+
+      {/* Mini bar charts: top brain regions + top emotions */}
+      <div style={{ display: 'flex', gap: 16, marginTop: 10 }}>
+        {topLobes.length > 0 && (
+          <div style={{ flex: 1 }}>
+            <div style={{ fontSize: 8, fontWeight: 600, color: '#8B90A0', letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: 4, fontFamily: "'JetBrains Mono', monospace" }}>
+              Top Brain Regions
+            </div>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
+              {topLobes.map((l) => (
+                <MiniBar key={l.name} label={l.name} value={l.value} gradient={FIRE_GRADIENT} />
+              ))}
+            </div>
+          </div>
+        )}
+        {topEmotions.length > 0 && (
+          <div style={{ flex: 1 }}>
+            <div style={{ fontSize: 8, fontWeight: 600, color: '#8B90A0', letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: 4, fontFamily: "'JetBrains Mono', monospace" }}>
+              Top Emotions
+            </div>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
+              {topEmotions.map((e) => (
+                <MiniBar key={e.name} label={e.name} value={e.value} gradient={EMOTION_GRADIENT} />
+              ))}
+            </div>
+          </div>
+        )}
+      </div>
     </div>
   );
 }
@@ -184,6 +252,7 @@ export function ReportPanel({
   predictions,
   metadata,
   roiData,
+  emotionData,
   onSeek,
   onBack,
 }: ReportPanelProps) {
@@ -321,6 +390,7 @@ export function ReportPanel({
                       predictions={predictions}
                       metadata={metadata}
                       roiData={roiData}
+                      emotionData={emotionData}
                     />
                     <button
                       onClick={(e) => {

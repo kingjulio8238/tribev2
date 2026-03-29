@@ -6,6 +6,7 @@ import { ReportPanel } from './components/ReportPanel';
 import { usePlayback } from './hooks/usePlayback';
 import { useBrainData } from './hooks/useBrainData';
 import { useReportData } from './hooks/useReportData';
+import { useEmotionData } from './hooks/useEmotionData';
 import { DEMOS, DEFAULT_DEMO } from './utils/demos';
 import type { DemoConfig } from './utils/demos';
 
@@ -78,6 +79,7 @@ export function App() {
     useBrainData(currentDemo.basePath);
 
   const reportData = useReportData(currentDemo.basePath);
+  const emotionData = useEmotionData(currentDemo.basePath);
   const [showReport, setShowReport] = useState(false);
 
   const isNarrow = useIsNarrow(900);
@@ -248,6 +250,7 @@ export function App() {
             predictions={predictions}
             metadata={metadata}
             roiData={roiData}
+            emotionData={emotionData}
             onSeek={(time) => {
               setShowReport(false);
               setTimeout(() => playback.seek(time), 100);
